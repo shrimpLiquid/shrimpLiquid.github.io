@@ -13,14 +13,14 @@ class App:
 	def __init__(self):
 		pyxel.init(int(100*sm), int(100*sm),fps=30)
 		#self.p = [[90,50,8],[10,50,5],[50,10,11],[50,90,10]]#4
-		self.p = [[10,10,8],[50,10,9],[90,10,10],[10,50,11],[50,50,12],[90,50,5],[10,90,2],[50,90,15],[90,90,7]]#9
-
+		self.p = [[10,10,1],[50,10,2],[90,10,3],[10,50,8],[50,50,9],[90,50,4],[10,90,7],[50,90,6],[90,90,5]]
+		pyxel.colors.from_list([0x000000,0xff0000,0xff7f00,0xffff00,0x00ff00,0x00ffff,0x0000ff,0x7f00ff,0xff00ff,0xffffff])
 		pyxel.run(self.update, self.draw)
 		
 
 	def update(self):
 		if pyxel.btn(pyxel.KEY_R) or pyxel.btn(pyxel.MOUSE_BUTTON_LEFT):
-			self.p = [[10,10,8],[50,10,9],[90,10,10],[10,50,11],[50,50,12],[90,50,5],[10,90,2],[50,90,15],[90,90,7]]#9
+			self.p = [[10,10,1],[50,10,2],[90,10,3],[10,50,8],[50,50,9],[90,50,4],[10,90,7],[50,90,6],[90,90,5]]
 		if pyxel.frame_count == 0:
 			for p in self.p:
 				p[0]=p[0]*sm
@@ -28,8 +28,10 @@ class App:
 
 		
 	def draw(self):
-		pyxel.cls(0)
+		
 		#shuffle(self.p)
+		pyxel.cls(0)
+		#pyxel.circ(pyxel.mouse_x,pyxel.mouse_y,4,16)
 		for p in self.p:
 			if not pyxel.pget(p[0],p[1]) in [0,p[2]]:
 				self.p.remove(p)
