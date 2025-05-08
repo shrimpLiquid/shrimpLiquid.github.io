@@ -1,6 +1,6 @@
 body {
   background-color: #ff0000;
-  animation: bgColor 2s infinite linear;
+  animation: bgColor 10s infinite linear;
   margin: 0px;
 }
 
