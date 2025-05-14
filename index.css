@@ -1,11 +1,11 @@
+.goober {
+  width: 100%,
+  height: auto
+}
 body {
   background-color: #ff0000;
   animation: bgColor 7s infinite linear;
   margin: 0px;
-}
-.goober {
-  width: 100%,
-  height: auto
 }
 @keyframes bgColor {
   0% {
