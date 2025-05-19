@@ -3,6 +3,7 @@ body {
   animation: bgColor 7s infinite linear;
   margin: 0px;
 }
+
 @keyframes bgColor {
   0% {
     background-color: #ff0000;
