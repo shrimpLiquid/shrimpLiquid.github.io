@@ -1,2 +1,3 @@
-xesq[^1]
-[^1]: is
+- [x] Write the press release
+- [ ] Update the website
+- [G] Contact the media
