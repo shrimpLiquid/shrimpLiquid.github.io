@@ -4,7 +4,7 @@ function convertToHtml() {
     htmlOutput = "."+inputText.replace(/ /i, ".");
     htmlOutput = htmlOutput.replace(/([aeiqouyh])([aeiqouyh])/g, "$11$2");
     htmlOutput = htmlOutput.replace(/(\.[aeiqouyh])/g, "$11");
-    htmlOutput = htmlOutput.replace(/([rtsfjkzxcv][aeiqouyh])/g, "$12");
+    htmlOutput = htmlOutput.replace(/([rtsfjkeqyzxcv][aeiqouyh])/g, "$12");
     htmlOutput = htmlOutput.replace(/21/g, "1");
     htmloutput = htmlOutput = htmlOutput.replace(/^./, "");
   
