@@ -1,13 +1,11 @@
-body {
-  @font-face {
+@font-face {
   font-family: 'KARK'; /* Choose a name */
   src: url('https://shrimpliquid.github.io/karkathonian.ttf') format('truetype'); /* Include multiple formats for broad browser support */
-}
-  .OUT {
+}  
+.OUT {
   font-family: 'KARK'; /* Add fallback fonts */
 }
-
-
+body {
   background-color: #ff0000;
   animation: bgColor 7s infinite linear;
   margin: 0px;
