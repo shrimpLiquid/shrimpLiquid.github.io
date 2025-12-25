@@ -1,4 +1,13 @@
 body {
+  @font-face {
+  font-family: 'KARK'; /* Choose a name */
+  src: url('karkathonian.ttf') format('truetype'); /* Include multiple formats for broad browser support */
+}
+  .OUT {
+  font-family: 'karkathonian'; /* Add fallback fonts */
+}
+
+
   background-color: #ff0000;
   animation: bgColor 7s infinite linear;
   margin: 0px;
