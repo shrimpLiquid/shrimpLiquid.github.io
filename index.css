@@ -4,7 +4,7 @@ body {
   src: url('karkathonian.ttf') format('truetype'); /* Include multiple formats for broad browser support */
 }
   .OUT {
-  font-family: 'karkathonian'; /* Add fallback fonts */
+  font-family: 'KARK'; /* Add fallback fonts */
 }
 
 
