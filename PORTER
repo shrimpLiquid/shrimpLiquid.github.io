@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link rel="stylesheet" href="index.css">
+    <title>:D</title>
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+  </head>
+  <body>
+    <h1></h1>
+    <form action="/process" method="post" enctype="multipart/form-data">
+    <input type="file" name="image">
+    <button type="submit">Upload and Grayscale</button>
+</form>
+
+
+  </body>
+</html>
