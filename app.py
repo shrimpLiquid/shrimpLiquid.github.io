@@ -17,7 +17,7 @@ def index():
         img_io.seek(0)
         base64_img = base64.b64encode(img_io.getvalue()).decode('utf-8')
         image_data = f"data:image/png;base64,{base64_img}"
-    return render_template('index.html', image_data=image_data)
+    return render_template('porter.html', image_data=image_data)
 
 if __name__ == '__main__':
     app.run(debug=True)
