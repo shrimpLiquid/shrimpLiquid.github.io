@@ -1,17 +1,14 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    <link rel="stylesheet" href="index.css">
-    <title>:D</title>
-    <link rel="icon" href="favicon.ico" type="image/x-icon">
-  </head>
-  <body>
-    <h1></h1>
-    <form action="/process" method="post" enctype="multipart/form-data">
-    <input type="file" name="image">
-    <button type="submit">Upload and Grayscale</button>
-</form>
-
-
-  </body>
+<html lang="en">
+<body>
+    <h2>Upload and stinky Image</h2>
+    <form method="post" enctype="multipart/form-data">
+        <input type="file" name="image" required>
+        <button type="submit">Process Image</button>
+    </form>
+    {% if image_data %}
+        <h3>Processed Result:</h3>
+        <img src="{{ image_data }}" alt="Processed Image" style="max-width: 500px;">
+    {% endif %}
+</body>
 </html>
