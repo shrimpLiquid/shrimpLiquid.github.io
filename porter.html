@@ -1,14 +1,7 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <body>
-    <h2>Upload and stinky Image</h2>
-    <form method="POST" action="/" enctype="multipart/form-data">
-        <input type="file" name="image" required>
-        <button type="submit">Process Image</button>
-    </form>
-    {% if image_data %}
-        <h3>Processed Result:</h3>
-        <img src="{{ image_data }}" alt="Processed Image" style="max-width: 500px;">
-    {% endif %}
+    <h2>Result:</h2>
+    <img src="data:image/png;base64,{{ img_str }}">
 </body>
 </html>
