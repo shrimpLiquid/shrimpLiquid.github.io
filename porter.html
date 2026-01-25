@@ -4,6 +4,20 @@
     <title>Pillow Demo</title>
 </head>
 <body>
+    <script>
+    async function sendToPython(base64Image) {
+    const response = await fetch('https://YOUR_PYTHON_SERVER_URL/process', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ image: base64Image })
+    });
+
+    const data = await response.json();
+    
+    // Display the result in an <img> tag
+    document.getElementById('resultImage').src = data.processed_image;
+}
+</script>
     <h1>Result from Pillow:</h1>
     
     <img src="data:image/png;base64,{{ img_str }}" alt="Processed Image">
