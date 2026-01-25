@@ -1,29 +1,23 @@
-from flask import Flask, request, jsonify
-from flask_cors import CORS  # You'll need: pip install flask-cors
+from flask import Flask, jsonify
+from flask_cors import CORS
 from PIL import Image
 import io
 import base64
 
 app = Flask(__name__)
-CORS(app) # This allows your GitHub Page to talk to this script
+CORS(app)
 
-@app.route('/process', methods=['POST'])
-def process_image():
-    # 1. Get the image from the JS request
-    data = request.json['image']
-    header, encoded = data.split(",", 1)
-    img_data = base64.b64decode(encoded)
+@app.route('/get-processed-image')
+def get_image():
+    # 1. Open the local image file on the server
+    img = Image.open('lockin.png') 
     
-    # 2. Process with Pillow
-    img = Image.open(io.BytesIO(img_data))
-    img = img.convert('L') # Example: Grayscale
+    # 2. Process it
+    img = img.convert('L') # Grayscale filter
     
-    # 3. Save back to Base64
+    # 3. Encode to Base64
     buf = io.BytesIO()
-    img.save(buf, format="PNG")
-    result_base64 = base64.b64encode(buf.getvalue()).decode('utf-8')
+    img.save(buf, format='PNG')
+    img_str = base64.b64encode(buf.getvalue()).decode('utf-8')
     
-    return jsonify({'processed_image': 'data:image/png;base64,' + result_base64})
-
-if __name__ == '__main__':
-    app.run()
+    return jsonify({'image': 'data:image/png;base64,' + img_str})
