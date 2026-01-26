@@ -8,6 +8,7 @@ import base64
 app = Flask(__name__)
 CORS(app)
 file = open("LINES.txt",encoding="utf8")
+global lines
 lines = file.readlines()  
 temp = lines
 img = Image.open("bingo.png") 
