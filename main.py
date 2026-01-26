@@ -1,5 +1,6 @@
 from flask import Flask, jsonify
 from flask_cors import CORS
+from random import choice ,randint
 from PIL import Image, ImageFont, ImageDraw
 import io
 import base64
