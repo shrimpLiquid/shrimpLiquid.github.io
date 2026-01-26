@@ -11,7 +11,7 @@ CORS(app)
 @app.route('/get-processed-image')
 def get_image():
     with open("LINES.txt", encoding="utf8") as f:
-    lines = [line.strip() for line in f.readlines() if line.strip()]
+        lines = f.readlines()
 
     img = Image.open("bingo.png").copy() 
     draw = ImageDraw.Draw(img) 
