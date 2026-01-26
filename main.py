@@ -13,7 +13,7 @@ img = Image.open("bingo.png")
 @app.route('/get-processed-image')
 def get_image():
     # 1. Open the local image file on the server
-    draw = ImageDraw.Draw(image) 
+    draw = ImageDraw.Draw(img) 
 
     font = ImageFont.truetype("mononoki-Regular.ttf", 45) 
     
