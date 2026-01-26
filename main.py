@@ -26,7 +26,7 @@ def get_image():
                 newtext=text.replace(">","\n")
                 l = text.count(">")
                 draw.text(((409*X)+5, (409*Y)+5+(200-(l*20))), newtext,fill=(randint(0,200),randint(0,200),randint(0,200)), font = font, align ="left")
-
+    line = temp
     buf = io.BytesIO()
     img.save(buf, format='PNG')
     img_str = base64.b64encode(buf.getvalue()).decode('utf-8')
