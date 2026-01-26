@@ -9,7 +9,7 @@ app = Flask(__name__)
 CORS(app)
 file = open("LINES.txt",encoding="utf8")
 lines = file.readlines()  
-image = Image.open("bingo.png") 
+img = Image.open("bingo.png") 
 @app.route('/get-processed-image')
 def get_image():
     # 1. Open the local image file on the server
