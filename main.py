@@ -9,7 +9,7 @@ app = Flask(__name__)
 CORS(app)
 file = open("LINES.txt",encoding="utf8")
 lines = file.readlines()  
-file.close()
+temp = lines
 img = Image.open("bingo.png") 
 @app.route('/get-processed-image')
 def get_image():
@@ -26,9 +26,7 @@ def get_image():
                 newtext=text.replace(">","\n")
                 l = text.count(">")
                 draw.text(((409*X)+5, (409*Y)+5+(200-(l*20))), newtext,fill=(randint(0,200),randint(0,200),randint(0,200)), font = font, align ="left")
-    file = open("LINES.txt",encoding="utf8")
-    lines = file.readlines()  
-    file.close()
+    lines = temp
 
     buf = io.BytesIO()
     img.save(buf, format='PNG')
