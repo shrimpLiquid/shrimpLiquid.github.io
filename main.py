@@ -13,23 +13,30 @@ def get_image():
     with open("LINES.txt", encoding="utf8") as f:
         lines = f.readlines()
 
-    img = Image.open("bingo.png").copy() 
+    img = Image.open("bingo.png").copy()
+    #img = Image.open(os.path.abspath(__file__).replace("main.py","bingo.png")).copy()
+
     draw = ImageDraw.Draw(img) 
 
     try:
-        font = ImageFont.truetype("mononoki-Regular.ttf", 45) 
+        font = ImageFont.truetype("mononoki-Regular.ttf", 45)
+        #font = ImageFont.truetype(os.path.abspath(__file__).replace("main.py","mononoki-Regular.ttf"), 45) 
     except:
         font = ImageFont.load_default()
-
-    for X in range(5):
-        for Y in range(5):    
-            if not (X == 2 and Y == 2):
-                if lines:
-                    text = choice(lines)
-                    lines.remove(text)
-                    newtext = text.replace(">", "\n")
-                    l_count = text.count(">")
-                    draw.text(((409*X)+5, (409*Y)+5+(200-(l_count*20))), newtext,fill=(randint(0,200), randint(0,200), randint(0,200)), font=font, align="left")
+    for XX in range(2):
+        for YY in range(3):    
+            for X in range(5):
+                for Y in range(5):    
+                    if not (X == 2 and Y == 2):
+                        if lines:
+                            text = choice(lines)
+                            lines.remove(text)
+                            newtext = text.replace(">", "\n")
+                            l_count = text.count(">")
+                            #=(randint(0,200), randint(0,200), randint(0,200))
+                            draw.text(((409*X)+5+(XX*2048), (409*Y)+5+(200-(l_count*20))+(YY*2048)), newtext,fill=((randint(0,150)), randint(0,150), randint(0,150)), font=font, align="left")
+            with open("LINES.txt", encoding="utf8") as f:
+                lines = f.readlines()
     buf = io.BytesIO()
     img.save(buf, format='PNG')
     img_str = base64.b64encode(buf.getvalue()).decode('utf-8')
