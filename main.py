@@ -23,8 +23,8 @@ def get_image():
         #font = ImageFont.truetype(os.path.abspath(__file__).replace("main.py","mononoki-Regular.ttf"), 45) 
     except:
         font = ImageFont.load_default()
-    for XX in range(2):
-        for YY in range(3):    
+    for XX in range(0):
+        for YY in range(2):    
             for X in range(5):
                 for Y in range(5):    
                     if not (X == 2 and Y == 2):
