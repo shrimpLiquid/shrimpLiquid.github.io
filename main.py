@@ -34,7 +34,7 @@ def get_image():
                             newtext = text.replace(">", "\n")
                             l_count = text.count(">")
                             #=(randint(0,200), randint(0,200), randint(0,200))
-                            draw.text(((409*X)+5+int(409/2)+(XX*2048), (409*Y)+5+(200-(l_count*20))+(YY*2048)), newtext,fill=((randint(0,150)), randint(0,150), randint(0,150)), font=font, align="center")
+                            draw.text(((409*X)+5+int(409/4)+(XX*2048), (409*Y)+5+(200-(l_count*20))+(YY*2048)), newtext,fill=((randint(0,150)), randint(0,150), randint(0,150)), font=font, align="center")
             with open("LINES.txt", encoding="utf8") as f:
                 lines = f.readlines()
     buf = io.BytesIO()
