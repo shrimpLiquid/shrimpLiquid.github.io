@@ -19,7 +19,7 @@ def get_image():
     draw = ImageDraw.Draw(img) 
 
     try:
-        font = ImageFont.truetype("mononoki-Regular.ttf", 45)
+        font = ImageFont.truetype("bingo.otf", 45)
         #font = ImageFont.truetype(os.path.abspath(__file__).replace("main.py","mononoki-Regular.ttf"), 45) 
     except:
         font = ImageFont.load_default()
