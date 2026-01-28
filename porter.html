@@ -4,8 +4,8 @@
     <title>Auto-Process Demo</title>
 </head>
 <body>
-    <h1>Automatic Pillow Processing</h1>
-    <p id="status">Waking up server...</p>
+    <h1></h1>
+    <p id="status"></p>
     <img id="display" src="" style="max-width: 500px;">
 
     <script>
@@ -21,9 +21,9 @@
                 const data = await response.json();
                 
                 display.src = data.image;
-                status.innerText = "Processing Complete!";
+                status.innerText = "";
             } catch (err) {
-                status.innerText = "Error: Make sure the Python server is running.";
+                status.innerText = "Error: D:";
                 console.error(err);
             }
         };
