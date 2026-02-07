@@ -1,9 +1,0 @@
-instrumental turns a noun into a verb meaning "thing done with the use of" 
-
-ex.
-sojki = eye,
-sojkiza = see
-
-the 4th person genitive without a person marker means "OwnedByThePreviousNounPhrase"
-
-4th person genitive animate also exists, there just isn't room on the chart. 4th person genitive animate uses "-deton"

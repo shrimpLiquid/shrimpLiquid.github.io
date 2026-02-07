@@ -1,6 +1,0 @@
--za(when applied to a verb) converts a verb into a noun. 
-ex.
-     sojkizaza - sight
-     kaxqza     - speach
- 
-if "za" is not the last it can be replaced with "zq", this change is not reflected in the karkathonian script.
