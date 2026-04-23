@@ -19,7 +19,7 @@ guys = [[500,800,[0,0],0,0]]
 
 
 async def main():
-    init_window(2000, 1200, "soup")
+    init_window(1280, 720, "soup")
     while not window_should_close():
         set_target_fps(60)
         begin_drawing()
@@ -28,7 +28,7 @@ async def main():
         for g in guys:
             draw_rectangle(int(g[x]-30),int(g[y]-30),60,60,RED)
 
-            if g[y] < 800:
+            if g[y] < 600:
                 g[v][y] += 5
             else:
                 g[v][y] = 0
@@ -45,9 +45,10 @@ async def main():
             g[y] += g[v][y]
 
 
-            
 
         end_drawing()
+
+        await asyncio.sleep(0)
     close_window()
 
 
