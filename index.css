@@ -8,7 +8,7 @@
 }
 
 body {
-  margin: 0; /* Removed the second duplicate margin property */
+  margin: 0; /* */
   background-image: url('check.png');
   background-repeat: repeat;
   background-size: 100% auto; 
