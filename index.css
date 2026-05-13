@@ -9,7 +9,7 @@
 
 body {
   margin: 0; /* Removed the second duplicate margin property */
-  background-image: url('hichew.png');
+  background-image: url('check.png');
   background-repeat: repeat;
   background-size: 100% auto; 
   background-color: #ff0000;
