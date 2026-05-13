@@ -1,5 +1,5 @@
 @font-face {
-  font-family: 'KARK'; /* C*/
+  font-family: 'KARK'; /* Choose a name */
   src: url('karkathonian.ttf') format('truetype'); /* Include multiple formats for broad browser support */
 }  
 .OUT {
@@ -7,7 +7,7 @@
 }
 body {
   margin: 0;
-  background-image: url('../hichew.png');
+  background-image: url('https://static.tumblr.com/p8p7g7h/l8Ptd3lln/hichew.png');
   background-repeat: repeat;
   background-size: 100% auto; 
   background-color: #ff0000;
