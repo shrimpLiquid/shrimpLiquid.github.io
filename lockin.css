@@ -1,0 +1,24 @@
+@font-face {
+  font-family: 'KARK';
+  src: url('karkathonian.ttf') format('truetype');
+}  
+
+.OUT {
+  font-family: 'KARK', sans-serif !important; /* Removed extra semicolon and added generic fallback */
+}
+
+body {
+  margin: 0; /* */
+  background-color: #ff0000;
+  animation: bgColor 7s infinite linear;
+}
+
+@keyframes bgColor {
+  0%   { background-color: #ff0000; }
+  17%  { background-color: #ffff00; }
+  33%  { background-color: #00ff00; }
+  50%  { background-color: #00ffff; }
+  67%  { background-color: #0000ff; }
+  83%  { background-color: #ff00ff; }
+  100% { background-color: #ff0000; }
+}
