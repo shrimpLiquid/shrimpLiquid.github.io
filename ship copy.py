@@ -18,7 +18,7 @@ for i in range(10):
     stars.append((pyxel.rndi(0,200),pyxel.rndi(20,220),pyxel.rndi(0,1)))
 class App:
     def __init__(self):
-        self.p = [[10,90,0,0,0]]
+        self.p = [[10,90,0,[0,0],0]]
         self.t = [100,100]
         self.d = 100
         self.s = 0
@@ -67,34 +67,26 @@ class App:
                 self.d-=1
                 self.txt = 0
                 pyxel.tri(p[x]+cos(p[r])*-8,p[y]+sin(p[r])*-8,p[x]+cos(p[r]+radians(180-30))*5,p[y]+sin(p[r]+radians(180-30))*5,p[x]+cos(p[r]-radians(180-30))*5,p[y]+sin(p[r]-radians(180-30))*5,7)
-                if p[s] < 5:
-                        p[s] += 0.1
+                if p[s][x] < 5:
+                        p[s][x] += 0.1*cos(p[r])
+                if p[s][y] < 5:
+                        p[s][y] += 0.1*sin(p[r])
             else:
                 self.d-=0.5
-                if p[s] > 0.0:
-                    p[s] -= 0.1 
-            p[x] += cos(p[r])*(p[s])
-            p[y] += sin(p[r])*(p[s])
+                for iii in range(2):
+                    if p[s][iii] > 0.0:
+                        p[s][iii] -= 0.1
+                    if p[s][iii] < 0:
+                        p[s][iii] = 0
+            p[x] += p[s][x]
+            p[y] += p[s][y]
             #pyxel.circ(p[x],p[y],2,4)
             pyxel.tri(p[x]+cos(p[r])*5,p[y]+sin(p[r])*5,p[x]+cos(p[r]+radians(180-30))*5,p[y]+sin(p[r]+radians(180-30))*5,p[x]+cos(p[r]-radians(180-30))*5,p[y]+sin(p[r]-radians(180-30))*5,11)
             if pyxel.btn(pyxel.KEY_LEFT) or pyxel.btn(pyxel.KEY_A) or pyxel.btn(pyxel.GAMEPAD1_BUTTON_DPAD_LEFT):
-                p[r] +=-0.15 + val(p[s],0,5,0,0.05)
+                p[r] +=-0.15
             if pyxel.btn(pyxel.KEY_RIGHT) or pyxel.btn(pyxel.KEY_D) or pyxel.btn(pyxel.GAMEPAD1_BUTTON_DPAD_RIGHT):
-                p[r] +=0.15 - val(p[s],0,5,0,0.05)
-            if p[s] < 0:
-                p[s] = 0
-            if p[x] >199:
-                p[r]=radians(180)-p[r]
-                p[x] -= 5
-            if p[x] <0:
-                p[r]=radians(180)-p[r]
-                p[x] += 5
-            if p[y] >219:
-                p[r]=radians(360)-p[r]
-                p[y] -= 5
-            if p[y] <20:
-                p[r]=radians(360)-p[r]
-                p[y] += 5
+                p[r] +=0.15
+            
 
             """pyxel.circ(185,15,7,5)
             pyxel.line(185,15,185+ cos(p[r])*5,15+ sin(p[r])*5,1)
