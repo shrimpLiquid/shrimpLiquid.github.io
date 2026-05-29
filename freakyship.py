@@ -42,7 +42,7 @@ class App:
         
     def draw(self):
         if pyxel.btnp(pyxel.KEY_R) or pyxel.btnp(pyxel.GAMEPAD1_BUTTON_B):
-            self.p = [[10,90,0,0,0]]
+            self.p = [[10,90,0,[0,0],0]]
             self.t = [100,100]
             self.d = 100
             self.s = 0
@@ -86,23 +86,40 @@ class App:
                 p[r] +=-0.15
             if pyxel.btn(pyxel.KEY_RIGHT) or pyxel.btn(pyxel.KEY_D) or pyxel.btn(pyxel.GAMEPAD1_BUTTON_DPAD_RIGHT):
                 p[r] +=0.15
+            if p[x] >199:
+                p[r]=radians(180)-p[r]
+                p[s][x] = abs(p[s][x])*-1
+                p[x] -= 5
+            if p[x] <0:
+                p[x] += 5
+                p[r]=radians(180)-p[r]
+                p[s][x] = abs(p[s][x])
+            if p[y] >219:
+                p[y] -= 5
+                p[r]=radians(360)-p[r]
+                p[s][y] = abs(p[s][y])*-1
+            if p[y] <20:
+                p[y] += 5
+                p[r]=radians(360)-p[r]
+                p[s][y] = abs(p[s][y])
             
 
-            """pyxel.circ(185,15,7,5)
-            pyxel.line(185,15,185+ cos(p[r])*5,15+ sin(p[r])*5,1)
-            pyxel.circ(15,15,9,5)
-            pyxel.line(15,15,15+ cos(val(p[s],0,4,-3.1416,0))*7,15+ sin(val(p[s],0,4,-3.1416,0))*7,1)"""
-            pyxel.rect(0,0,200,20,11)
-            pyxel.rect(50,5,100,10,0)
-            pyxel.rectb(1,1,200-2,20-2,12)
-            pyxel.dither(0.5)
-            pyxel.rect(50,5,100,10,12)
-            pyxel.dither(1)
-            pyxel.rect(50,5,self.d,10,5)
-            pyxel.dither((100-self.d)/100)
-            pyxel.rect(50,5,self.d,10,7)
-            pyxel.dither(1)
-            pyxel.text(20,8,str(self.s),7)
-            if self.txt:
-                pyxel.text(17,18,"use arrow keys to move. use R to restart.",7)
+        """pyxel.circ(185,15,7,5)
+        pyxel.line(185,15,185+ cos(p[r])*5,15+ sin(p[r])*5,1)
+        pyxel.circ(15,15,9,5)
+        pyxel.line(15,15,15+ cos(val(p[s],0,4,-3.1416,0))*7,15+ sin(val(p[s],0,4,-3.1416,0))*7,1)"""
+        pyxel.rect(0,0,200,20,11)
+        pyxel.rect(50,5,100,10,0)
+        pyxel.rectb(1,1,200-2,20-2,12)
+        pyxel.dither(0.5)
+        pyxel.rect(50,5,100,10,12)
+        pyxel.dither(1)
+        pyxel.rect(50,5,self.d,10,5)
+        pyxel.dither((100-self.d)/100)
+        pyxel.rect(50,5,self.d,10,7)
+        pyxel.dither(1)
+        pyxel.text(20,8,str(self.s),7)
+        if self.txt:
+            pyxel.text(17,18,"use arrow keys to move. use R to restart.",7)
+            
 App()
