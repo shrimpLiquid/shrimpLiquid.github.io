@@ -9,12 +9,13 @@ def angle_between(a, b):
     if angle < 0:
         angle += 360
     return radians(180-angle)
+
 x=0
 y=1
 r=2
 s=3
 stars = []
-for i in range(10):
+for i in range(pyxel.rndi(7,20)):
     stars.append((pyxel.rndi(0,200),pyxel.rndi(20,220),pyxel.rndi(0,1)))
 class App:
     def __init__(self):
