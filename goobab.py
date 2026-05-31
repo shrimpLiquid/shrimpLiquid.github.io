@@ -18,6 +18,7 @@ v= 2
 c = 3
 size = 500
 goobabs = []
+
 for i in range(200):
 	goobabs.append([ran(0,size),ran(0,size),[0,0],ran(16,23)])	
 
@@ -33,6 +34,7 @@ class App:
 		pyxel.colors.append(0xaa33ff)
 		pyxel.colors.append(0xff33ff)
 		pyxel.colors.append(0xffffff)
+		pyxel.screen_mode(1)
 		self.p = goobabs
 		pyxel.run(self.update, self.draw)
 	def update(self):
@@ -54,7 +56,12 @@ class App:
 			if p[y] < 0:
 				p[v][y] = abs(p[v][y])
 				p[y] += 1
-				
+			
+			if pyxel.btn(pyxel.KEY_SPACE):
+				if frdist(p[x],p[y],pyxel.mouse_x,pyxel.mouse_y) < 40:
+
+					self.p.remove(p)
+
 			for pp in self.p:
 				if not pp == p:
 					d = frdist(p[x],p[y],pp[x],pp[y])
@@ -68,13 +75,16 @@ class App:
 						dy = p[y] - pp[y]
 						p[v][x] -= (dx / d) / 6
 						p[v][y] -= (dy / d) / 6
-		if pyxel.btnp(pyxel.MOUSE_BUTTON_LEFT):
+				
+		if pyxel.btnp(pyxel.MOUSE_BUTTON_LEFT,repeat=10):
 			self.p.append([pyxel.mouse_x,pyxel.mouse_y,[pyxel.rndi(-10,10),pyxel.rndi(-10,10)],pyxel.rndi(16,23)])
 	def draw(self):
 		pyxel.cls(0)
 		pyxel.mouse(True)
 		for p in self.p:
 			pyxel.circ(p[x],p[y],5,p[c])
+		if pyxel.btn(pyxel.KEY_SPACE):
+			pyxel.circb(pyxel.mouse_x,pyxel.mouse_y,40,24)
 			
 			
 
