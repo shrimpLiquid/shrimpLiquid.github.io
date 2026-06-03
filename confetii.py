@@ -15,6 +15,7 @@ class App:
         self.pt=0
         self.dt=0
         self.stance = 0
+        pyxel.screen_mode(1)
         pyxel.colors.from_list([0x0,0xff0000,0xff8800,0xffff00,0x88ff00,0x00ff00,0x00ff88,0x00ffff,0x0088ff,0x0000ff,0x8800ff,0xff00ff,0xff0088,0xffffff])
         pyxel.run(self.update, self.draw)
 

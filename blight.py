@@ -1,8 +1,6 @@
 import pyxel  
 #from random import shuffle
 sm = 1.2 # size multplier
-def clamp(n, minn, maxn):
-	return max(min(maxn, n), minn)
 class App:
 	def __init__(self):
 		pyxel.init(int(100*sm), int(100*sm),fps=30)
