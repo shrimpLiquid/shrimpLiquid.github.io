@@ -1,6 +1,5 @@
 import pyxel
 from random import randint as ran
-from math import trunc as cut
 fall = [0,3,6]
 
 waterfall = fall
@@ -13,7 +12,7 @@ elements = {0:"air",
             4:"wood",
             9:"fire",
             13:"metal",
-            6:"steam"
+            11:"goop"
             }
 size = 100
 yyyyy = []
@@ -27,6 +26,7 @@ class App:
         self.e = 10
         self.grid = base
         self.bs = 0
+        pyxel.colors[14] = 0xA09595
         pyxel.init(size, size+5,fps=120)
         pyxel.screen_mode(1)
         pyxel.run(self.update, self.draw)
@@ -34,7 +34,7 @@ class App:
 
     def update(self):
 
-        self.bs = abs(self.bs + pyxel.mouse_wheel)
+        self.bs = max(self.bs + int(pyxel.mouse_wheel/2),0)
        
         if pyxel.btn(pyxel.MOUSE_BUTTON_LEFT):
             X,Y = pyxel.mouse_x,pyxel.mouse_y
@@ -56,7 +56,7 @@ class App:
         if pyxel.btn(pyxel.KEY_5):
             self.e = 13
         if pyxel.btn(pyxel.KEY_6):
-            self.e = 6
+            self.e = 11
        
 
         for x in range(size):
@@ -84,7 +84,7 @@ class App:
                         self.grid[x][y] = self.grid[X][Y]
                         self.grid[X][Y] = -3
 
-                    if cut(self.grid[X][Y+1]) < round(self.grid[X][Y+1],1):
+                    if self.grid[X][Y+1] == 14:
                         self.grid[X][Y] = -6
                        
                 #FIRE      
@@ -112,15 +112,16 @@ class App:
                        
                        
                 #metal
-                if cut(self.grid[x][y]) == 13:
-                    mciq = round(self.grid[x][y],1)
-                    if mciq > 13.0 and pyxel.rndi(0,10) == 0:
-                        self.grid[x][y] -= 0.1
-                    if self.grid[x][y+1] == 9:
-                        self.grid[x][y] = 13.9
-                        self.grid[x][y+1] = 0
-                    if cut(self.grid[x][y+1]) == 13 and self.grid[x][y+1]:
-                        self.grid[x][y] = self.grid[x][y+1]
+                if self.grid[x][y] == 13:
+                    if self.grid[x][y+1] in [9,14]:
+                        self.grid[x][y] = -14
+                        if self.grid[x][y+1] == 9:
+                            self.grid[x][y+1] = 0
+                if self.grid[x][y] == 14:
+                    if pyxel.rndi(0,2) == 0:
+                        self.grid[x][y] = 13
+                       
+                   
 
                 #steam
                 if self.grid[x][y] == 6:
@@ -138,7 +139,22 @@ class App:
                         Y+=1
                     elif (X,Y) != (x,y):
                         self.grid[x][y] = 0
-                        self.grid[X][Y] = -6       
+                        self.grid[X][Y] = -6      
+               
+                #goop
+                if self.grid[x][y] == 11:
+                    X = x
+                    Y = y
+                    if pyxel.rndi(0,10) == 0:
+                        ofset = (pyxel.rndi(0,1)*2)-1
+                        if abs(self.grid[X+ofset][Y]) == 0 and 0 < X+ofset < size-1:
+                            X+=ofset
+                    if abs(self.grid[X][Y+1]) == 0  and Y < size-2:
+                        Y+=1
+                   
+                    if (X,Y) != (x,y):
+                        self.grid[x][y] = self.grid[X][Y]
+                        self.grid[X][Y] = -11
 
                    
                    
@@ -146,7 +162,7 @@ class App:
             for y in range(size):
                 self.grid[x][y] = abs(self.grid[x][y])
                 if y > size-2:
-                    self.grid[x][y] = 0 
+                    self.grid[x][y] = 0
                    
 
     def draw(self):
@@ -154,12 +170,10 @@ class App:
         pyxel.camera(0,-5)
         for x in range(size):
             for y in range(size):
-                pyxel.pset(x,y,cut(self.grid[x][y]))
-                # if cut(self.grid[x][y]) < round(self.grid[x][y],1):
-                #     pyxel.pset(x,y,8)
-        pyxel.pset(pyxel.mouse_x,pyxel.mouse_y,cut(7))
+                pyxel.pset(x,y,(self.grid[x][y]))
+        pyxel.pset(pyxel.mouse_x,pyxel.mouse_y,7)
         pyxel.text(0,-5,str(self.bs+1),7)
-        pyxel.text(10,-5,str(elements[cut(self.e)]),cut(self.e))
+        pyxel.text(10,-5,str(elements[self.e]),self.e)
         # pyxel.text(1,1,str(self.bs+1),7)
 
 App()
