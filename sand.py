@@ -1,9 +1,15 @@
 import pyxel
 from random import randint as ran
-fall = [0,3,6]
+fall = [0,3,6,11,15]
+burn = [4,15]
 
-waterfall = fall
+waterfall = list(fall)
 waterfall.remove(3)
+goopfall = list(fall)
+goopfall.remove(11)
+oilfall = list(fall)
+oilfall.remove(15)
+oilfall.remove(3)
 
 base = []
 elements = {0:"air",
@@ -12,8 +18,15 @@ elements = {0:"air",
             4:"wood",
             9:"fire",
             13:"metal",
-            11:"goop"
+            11:"goop",
+            12:"stone",
+            15:"oil"
             }
+            
+elearry = []   
+for e in elements:
+    elearry.append(e)
+
 size = 100
 yyyyy = []
 for i in range(size):
@@ -27,6 +40,8 @@ class App:
         self.grid = base
         self.bs = 0
         pyxel.colors[14] = 0xA09595
+        pyxel.colors[12] = 0x505050
+        pyxel.colors[15] = 0xbc8c03
         pyxel.init(size, size+5,fps=120)
         pyxel.screen_mode(1)
         pyxel.run(self.update, self.draw)
@@ -57,6 +72,10 @@ class App:
             self.e = 13
         if pyxel.btn(pyxel.KEY_6):
             self.e = 11
+        if pyxel.btn(pyxel.KEY_7):
+            self.e = 12
+        if pyxel.btn(pyxel.KEY_8):
+            self.e = 15
        
 
         for x in range(size):
@@ -65,7 +84,7 @@ class App:
                 if self.grid[x][y] == 10:
                     for i in range(3):
                         ofset = ((i+1)%3)-1
-                        if self.grid[x+ofset][y+1] in fall and 0 < x+ofset < size-1 and y < size-2:
+                        if (self.grid[x+ofset][y+1] in fall) and 0 < x+ofset < size-1 and y < size-2:
                             self.grid[x][y] = self.grid[x+ofset][y+1]
                             self.grid[x+ofset][y+1] = -10
                             break
@@ -94,9 +113,9 @@ class App:
 
                     for I in range(2):
                         i = (I*2)-1
-                        if abs(self.grid[pyxel.clamp(X+i,1,size-1)][Y]) == 4:
+                        if abs(self.grid[pyxel.clamp(X+i,1,size-1)][Y]) in burn:
                             self.grid[X+i][Y] = -9
-                    if abs(self.grid[X][pyxel.clamp(Y+1,1,size-2)]) == 4:
+                    if abs(self.grid[X][pyxel.clamp(Y+1,1,size-2)]) in burn:
                         self.grid[X][Y+1] = -9
 
                     ofset = (pyxel.rndi(0,1)*2)-1
@@ -147,14 +166,35 @@ class App:
                     Y = y
                     if pyxel.rndi(0,10) == 0:
                         ofset = (pyxel.rndi(0,1)*2)-1
-                        if abs(self.grid[X+ofset][Y]) == 0 and 0 < X+ofset < size-1:
+                        if abs(self.grid[X+ofset][Y]) in goopfall and 0 < X+ofset < size-1:
                             X+=ofset
-                    if abs(self.grid[X][Y+1]) == 0  and Y < size-2:
+                    if abs(self.grid[X][Y+1]) in goopfall  and Y < size-2:
                         Y+=1
                    
                     if (X,Y) != (x,y):
                         self.grid[x][y] = self.grid[X][Y]
                         self.grid[X][Y] = -11
+                
+                #stone
+                if self.grid[x][y] == 12:
+                    if self.grid[x][y+1] in fall and y < size-2:
+                        self.grid[x][y] = self.grid[x][y+1]
+                        self.grid[x][y+1] = -12
+                    
+                #oil
+                if self.grid[x][y] == 15:
+                    ofset = (pyxel.rndi(0,1)*2)-1
+                    X = x
+                    Y = y
+                    if abs(self.grid[X+ofset][Y]) in oilfall and 0 < X+ofset < size-1:
+                        X+=ofset
+                    if abs(self.grid[X][Y+1]) in oilfall  and Y < size-2:
+                        Y+=1
+                   
+                    if (X,Y) != (x,y):
+                        self.grid[x][y] = self.grid[X][Y]
+                        self.grid[X][Y] = -15
+                    
 
                    
                    
