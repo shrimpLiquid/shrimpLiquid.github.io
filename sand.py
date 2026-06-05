@@ -42,14 +42,14 @@ class App:
         pyxel.colors[14] = 0xA09595
         pyxel.colors[12] = 0x505050
         pyxel.colors[15] = 0xbc8c03
-        pyxel.init(size, size+5,fps=120)
+        pyxel.init(size, size+5,fps=60)
         pyxel.screen_mode(1)
         pyxel.run(self.update, self.draw)
 
 
     def update(self):
 
-        self.bs = max(self.bs + int(pyxel.mouse_wheel/2),0)
+        self.bs = max(self.bs + int(pyxel.mouse_wheel/1),0)
        
         if pyxel.btn(pyxel.MOUSE_BUTTON_LEFT):
             X,Y = pyxel.mouse_x,pyxel.mouse_y
