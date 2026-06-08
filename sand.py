@@ -22,7 +22,8 @@ elements = {0:"air",
             11:"goop",
             12:"stone",
             15:"oil",
-            2:"grapes"
+            2:"grapes",
+            19:"acid"
             }
             
 elearry = []   
@@ -42,6 +43,7 @@ class App:
     def __init__(self):
         self.e = 10
         self.grid = base
+        self.spouts = []
         self.bs = 0
         pyxel.colors[14] = 0xA09595
         pyxel.colors[12] = 0x505050
@@ -49,6 +51,8 @@ class App:
         pyxel.colors[8] = 0xffaa000
         pyxel.colors.append(0xcc8c00)
         pyxel.colors.append(0x6b4852)
+        pyxel.colors.append(0xdddddd)
+        pyxel.colors.append(0xaaff00)
         pyxel.init(size, size+5,fps=60)
         pyxel.screen_mode(1)
         pyxel.run(self.update, self.draw)
@@ -58,13 +62,19 @@ class App:
 
         self.bs = max(self.bs + int(pyxel.mouse_wheel/1),0)
        
-        if pyxel.btn(pyxel.MOUSE_BUTTON_LEFT):
-            X,Y = pyxel.mouse_x,pyxel.mouse_y
-            for x in range((self.bs)+1):
-                for y in range((self.bs)+1):
-                    if (not self.e in [9]) or self.grid[pyxel.clamp((x-int(self.bs/2))+X,1,size-2)][pyxel.clamp((y-int(self.bs/2))+Y,2,size-2)] == 0:
-                        self.grid[pyxel.clamp((x-int(self.bs/2))+X,1,size-2)][pyxel.clamp((y-int(self.bs/2))+Y,2,size-2)] = self.e
+        for s in self.spouts:
+           self.grid[s[0]][s[1]] = s[2]
        
+        if not pyxel.btn(pyxel.KEY_SHIFT):
+            if pyxel.btn(pyxel.MOUSE_BUTTON_LEFT):
+                X,Y = pyxel.mouse_x,pyxel.mouse_y
+                for x in range((self.bs)+1):
+                    for y in range((self.bs)+1):
+                        if (not self.e in [9]) or self.grid[pyxel.clamp((x-int(self.bs/2))+X,1,size-2)][pyxel.clamp((y-int(self.bs/2))+Y,2,size-2)] == 0:
+                            self.grid[pyxel.clamp((x-int(self.bs/2))+X,1,size-2)][pyxel.clamp((y-int(self.bs/2))+Y,2,size-2)] = self.e
+        else:
+           if pyxel.btn(pyxel.MOUSE_BUTTON_LEFT):
+               self.spouts.append([pyxel.mouse_x,pyxel.mouse_y,self.e])
         if pyxel.btn(pyxel.KEY_0):
             self.e = 0
         if pyxel.btn(pyxel.KEY_1):
@@ -85,8 +95,8 @@ class App:
             self.e = 15
         if pyxel.btn(pyxel.KEY_9):
             self.e = 2
-        if pyxel.btn(pyxel.KEY_9):
-            self.e = 2
+        if pyxel.btn(pyxel.KEY_Q):
+            self.e = 19
        
 
         for x in range(size):
@@ -214,12 +224,6 @@ class App:
                     if (X,Y) != (x,y):
                         self.grid[x][y] = self.grid[X][Y]
                         self.grid[X][Y] = -11
-                
-                #stone
-                if self.grid[x][y] == 12:
-                    if self.grid[x][y+1] in fall and y < size-2:
-                        self.grid[x][y] = self.grid[x][y+1]
-                        self.grid[x][y+1] = -12
                     
                 #grapes
                 if self.grid[x][y] == 2:
@@ -233,7 +237,7 @@ class App:
                 #glass
                 if self.grid[x][y] == 8:
                     if pyxel.rndi(0,50) == 0 and not self.grid[x][y+1] in [8,0]:
-                        self.grid[x][y] = -7
+                        self.grid[x][y] = -18
                         break
                     ofset = (pyxel.rndi(0,1)*2)-1
                     X = x
@@ -246,7 +250,21 @@ class App:
                     if (X,Y) != (x,y):
                         self.grid[x][y] = self.grid[X][Y]
                         self.grid[X][Y] = -8
-                    
+                
+                
+                #acid
+                if self.grid[x][y] == 19:
+                    ofset = (pyxel.rndi(0,1)*2)-1
+                    X = x
+                    Y = y
+                    if abs(self.grid[X+ofset][Y]) not in [18,19] and 0 < X+ofset < size-1:
+                        X+=ofset
+                    if abs(self.grid[X][Y+1]) not in [18,19]  and Y < size-2:
+                        Y+=1
+                   
+                    if (X,Y) != (x,y):
+                        self.grid[x][y] = 0
+                        self.grid[X][Y] = -19
                     
 
                    
