@@ -252,5 +252,21 @@ class App:
                    
                    
         for x in range(size):
-            for y in range(size-1):
-                self.grid[x][y] = abs
+            for y in range(size):
+                self.grid[x][y] = abs(self.grid[x][y])
+                if y > size-2:
+                    self.grid[x][y] = 0
+                   
+
+    def draw(self):
+        pyxel.cls(0)
+        pyxel.camera(0,-5)
+        for x in range(size):
+            for y in range(size):
+                pyxel.pset(x,y,(self.grid[x][y]))
+        pyxel.pset(pyxel.mouse_x,pyxel.mouse_y,7)
+        pyxel.text(0,-5,str(self.bs+1),7)
+        pyxel.text(10,-5,str(elements[self.e]),self.e)
+        # pyxel.text(1,1,str(self.bs+1),7)
+
+App()
