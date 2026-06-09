@@ -1,6 +1,6 @@
 import pyxel
 from random import randint as ran
-fall = [0,3,6,15]
+fall = [0,3,6,15,19]
 
 waterfall = list(fall)
 waterfall.remove(3)
@@ -146,13 +146,13 @@ class App:
                             if abs(self.grid[pyxel.clamp(X+i,1,size-1)][Y]) == 4:
                                 self.grid[X+i][Y] = -17
                             if abs(self.grid[pyxel.clamp(X+i,1,size-1)][Y]) == 15:
-                                self.grid[X+i][Y] = -16
+                                self.grid[X+i][Y] = -9
                         for I in range(2):
                             i = (I*2)-1
                             if abs(self.grid[X][pyxel.clamp(Y+i,1,size-2)]) == 4:
                                 self.grid[X][Y+i] = -17
                             if abs(self.grid[X][pyxel.clamp(Y+i,1,size-2)]) == 15:
-                                self.grid[X][Y+i] = -16
+                                self.grid[X][Y+i] = -9
    
                         ofset = (pyxel.rndi(0,1)*2)-1
                         if self.grid[X+ofset][Y] in [0,9] and 0 < X+ofset < size-1:
@@ -200,11 +200,7 @@ class App:
                             self.grid[X][Y] = -6
    
                     #oil
-                    elif self.grid[x][y]==16:
-                            if pyxel.rndi(0,1) == 0:
-                                self.grid[x][y] = -9
-                                break
-                    if self.grid[x][y] in [15,16]:
+                    if self.grid[x][y] == 15:
                         ofset = (pyxel.rndi(0,1)*2)-1
                         X = x
                         Y = y
@@ -269,8 +265,12 @@ class App:
                             Y+=1
    
                         if (X,Y) != (x,y):
-                            self.grid[x][y] = 0
-                            self.grid[X][Y] = -19
+                            if self.grid[X][Y] == 0:
+                                self.grid[x][y] = 0
+                                self.grid[X][Y] = -19
+                            else:
+                                self.grid[x][y] = 0
+                                self.grid[X][Y] = 0
 
 
         for x in range(size):
@@ -285,8 +285,8 @@ class App:
         pyxel.camera(0,-5)
         for x in range(size):
             for y in range(size):
-                pyxel.pset(x,y,(self.grid[x][y]))
-        pyxel.pset(pyxel.mouse_x,pyxel.mouse_y,7)
+                pyxel.pset(x,y+1,(self.grid[x][y]))
+        pyxel.pset(pyxel.mouse_x,pyxel.mouse_y+1,7)
         pyxel.text(0,-5,str(self.bs+1),7)
         pyxel.text(10,-5,str(elements[self.e]),self.e)
         # pyxel.text(1,1,str(self.bs+1),7)
