@@ -25,8 +25,8 @@ elements = {0:"air",
             2:"grapes",
             19:"acid"
             }
-            
-elearry = []   
+
+elearry = []
 for e in elements:
     elearry.append(e)
 
@@ -61,10 +61,10 @@ class App:
     def update(self):
 
         self.bs = max(self.bs + int(pyxel.mouse_wheel/1),0)
-       
+
         for s in self.spouts:
            self.grid[s[0]][s[1]] = s[2]
-       
+
         if not pyxel.btn(pyxel.KEY_SHIFT):
             if pyxel.btn(pyxel.MOUSE_BUTTON_LEFT):
                 X,Y = pyxel.mouse_x,pyxel.mouse_y
@@ -74,7 +74,12 @@ class App:
                             self.grid[pyxel.clamp((x-int(self.bs/2))+X,1,size-2)][pyxel.clamp((y-int(self.bs/2))+Y,2,size-2)] = self.e
         else:
            if pyxel.btn(pyxel.MOUSE_BUTTON_LEFT):
-               self.spouts.append([pyxel.mouse_x,pyxel.mouse_y,self.e])
+               t = 1
+               for s in self.spouts:
+                   if (s[0],s[1]) == (pyxel.mouse_x,pyxel.mouse_y):
+                       t = 0
+               if t:
+                self.spouts.append([pyxel.mouse_x,pyxel.mouse_y,self.e])
         if pyxel.btn(pyxel.KEY_0):
             self.e = 0
         if pyxel.btn(pyxel.KEY_1):
@@ -97,184 +102,183 @@ class App:
             self.e = 2
         if pyxel.btn(pyxel.KEY_Q):
             self.e = 19
-       
+
 
         for x in range(size):
             for y in range(size):
                 #SAND
-                if self.grid[x][y] == 10:
-                    for i in range(3):
-                        ofset = ((i+1)%3)-1
-                        if (self.grid[x+ofset][y+1] in fall) and 0 < x+ofset < size-1 and y < size-2:
-                            self.grid[x][y] = self.grid[x+ofset][y+1]
-                            self.grid[x+ofset][y+1] = -10
-                            break
-                    if self.grid[x][y+1] in [8,14]:
-                            self.grid[x][y] = -8
-                       
-               #WATER
-                if self.grid[x][y] == 3:
-                    ofset = (pyxel.rndi(0,1)*2)-1
-                    X = x
-                    Y = y
-                    if abs(self.grid[X+ofset][Y]) in waterfall and 0 < X+ofset < size-1:
-                        X+=ofset
-                    if abs(self.grid[X][Y+1]) in waterfall  and Y < size-2:
-                        Y+=1
-                   
-                    if (X,Y) != (x,y):
-                        self.grid[x][y] = self.grid[X][Y]
-                        self.grid[X][Y] = -3
-
-                    if self.grid[X][Y+1] == 14:
-                        self.grid[X][Y] = -6
-                       
-                #FIRE      
-                if self.grid[x][y] == 9:
-                    X = x
-                    Y = y
-
-                    for I in range(2):
-                        i = (I*2)-1
-                        if abs(self.grid[pyxel.clamp(X+i,1,size-1)][Y]) == 4:
-                            self.grid[X+i][Y] = -17
-                        if abs(self.grid[pyxel.clamp(X+i,1,size-1)][Y]) == 15:
-                            self.grid[X+i][Y] = -16
-                    for I in range(2):
-                        i = (I*2)-1
-                        if abs(self.grid[X][pyxel.clamp(Y+i,1,size-2)]) == 4:
-                            self.grid[X][Y+i] = -17
-                        if abs(self.grid[X][pyxel.clamp(Y+i,1,size-2)]) == 15:
-                            self.grid[X][Y+i] = -16
-
-                    ofset = (pyxel.rndi(0,1)*2)-1
-                    if self.grid[X+ofset][Y] in [0,9] and 0 < X+ofset < size-1:
-                        X+=ofset
-                    if self.grid[X][Y-1] in [0,9]:
-                        Y -= 1
-                    if Y-1 < 1:
-                        self.grid[x][y] = 0
-                    elif (X,Y) != (x,y):
-                        self.grid[x][y] = 0
-                        self.grid[X][Y] = -9
-                       
-                #wood       
-                if self.grid[x][y] == 17 and pyxel.rndi(0,10) == 0:
-                    self.grid[x][y] = -9
-                
-                #metal
-                if self.grid[x][y] == 13:
-                    if self.grid[x][y+1] in [9,14]:
-                        self.grid[x][y] = -14
-                        if self.grid[x][y+1] == 9:
-                            self.grid[x][y+1] = 0
-                if self.grid[x][y] == 14:
-                    if pyxel.rndi(0,2) == 0:
-                        self.grid[x][y] = 13
-                       
-                   
-
-                #steam
-                if self.grid[x][y] == 6:
-                    if pyxel.rndi(0,1000) == 0:
-                        self.grid[x][y] = -3
-                        break
-                    X = x
-                    Y = y
-                    ofset = (pyxel.rndi(0,1)*2)-1
-                    if self.grid[X+ofset][Y] in [3,0] and 0 < X+ofset < size-1:
-                        X+=ofset
-                    if self.grid[X][Y-1] in [3,0]:
-                        Y -= 1
-                    if Y-1 < 1:
-                        Y+=1
-                    elif (X,Y) != (x,y):
-                        self.grid[x][y] = 0
-                        self.grid[X][Y] = -6      
-               
-                #oil
-                if self.grid[x][y]==16:
-                        if pyxel.rndi(0,1) == 0:
-                            self.grid[x][y] = -9
-                            break
-                if self.grid[x][y] in [15,16]:
-                    ofset = (pyxel.rndi(0,1)*2)-1
-                    X = x
-                    Y = y
-                    if abs(self.grid[X+ofset][Y]) in oilfall and 0 < X+ofset < size-1:
-                        X+=ofset
-                    if abs(self.grid[X][Y+1]) in oilfall  and Y < size-2:
-                        Y+=1
-                   
-                    if (X,Y) != (x,y):
-                        self.grid[x][y] = self.grid[X][Y]
-                        self.grid[X][Y] = -15
-
-                #goop
-                if self.grid[x][y] == 11:
-                    X = x
-                    Y = y
-                    if pyxel.rndi(0,10) == 0:
+                pix = self.grid[x][y]
+                if pix != 0:
+                    if pix == 10:
+                        for i in range(3):
+                            ofset = ((i+1)%3)-1
+                            if (self.grid[x+ofset][y+1] in fall) and 0 < x+ofset < size-1 and y < size-2:
+                                self.grid[x][y] = self.grid[x+ofset][y+1]
+                                self.grid[x+ofset][y+1] = -10
+                                break
+                        if self.grid[x][y+1] in [8,14]:
+                                self.grid[x][y] = -8
+   
+                   #WATER
+                    elif pix == 3:
                         ofset = (pyxel.rndi(0,1)*2)-1
-                        if abs(self.grid[X+ofset][Y]) in goopfall and 0 < X+ofset < size-1:
+                        X = x
+                        Y = y
+                        if abs(self.grid[X+ofset][Y]) in waterfall and 0 < X+ofset < size-1:
                             X+=ofset
-                    if abs(self.grid[X][Y+1]) in goopfall  and Y < size-2:
-                        Y+=1
-                   
-                    if (X,Y) != (x,y):
-                        self.grid[x][y] = self.grid[X][Y]
-                        self.grid[X][Y] = -11
-                    
-                #grapes
-                if self.grid[x][y] == 2:
-                    for i in range(3):
-                        ofset = ((i+1)%3)-1
-                        if (self.grid[x+ofset][y+1] in grapefall) and 0 < x+ofset < size-1 and y < size-2:
-                            self.grid[x][y] = self.grid[x+ofset][y+1]
-                            self.grid[x+ofset][y+1] = -2
+                        if abs(self.grid[X][Y+1]) in waterfall  and Y < size-2:
+                            Y+=1
+   
+                        if (X,Y) != (x,y):
+                            self.grid[x][y] = self.grid[X][Y]
+                            self.grid[X][Y] = -3
+   
+                        if self.grid[X][Y+1] == 14:
+                            self.grid[X][Y] = -6
+   
+                    #FIRE
+                    elif pix ==  9:
+                        X = x
+                        Y = y
+   
+                        for I in range(2):
+                            i = (I*2)-1
+                            if abs(self.grid[pyxel.clamp(X+i,1,size-1)][Y]) == 4:
+                                self.grid[X+i][Y] = -17
+                            if abs(self.grid[pyxel.clamp(X+i,1,size-1)][Y]) == 15:
+                                self.grid[X+i][Y] = -16
+                        for I in range(2):
+                            i = (I*2)-1
+                            if abs(self.grid[X][pyxel.clamp(Y+i,1,size-2)]) == 4:
+                                self.grid[X][Y+i] = -17
+                            if abs(self.grid[X][pyxel.clamp(Y+i,1,size-2)]) == 15:
+                                self.grid[X][Y+i] = -16
+   
+                        ofset = (pyxel.rndi(0,1)*2)-1
+                        if self.grid[X+ofset][Y] in [0,9] and 0 < X+ofset < size-1:
+                            X+=ofset
+                        if self.grid[X][Y-1] in [0,9]:
+                            Y -= 1
+                        if Y-1 < 1:
+                            self.grid[x][y] = 0
+                        elif (X,Y) != (x,y):
+                            self.grid[x][y] = 0
+                            self.grid[X][Y] = -9
+   
+                    #wood
+                    elif pix ==  17 and pyxel.rndi(0,10) == 0:
+                        self.grid[x][y] = -9
+   
+                    #metal
+                    elif pix ==  13:
+                        if self.grid[x][y+1] in [9,14]:
+                            self.grid[x][y] = -14
+                            if self.grid[x][y+1] == 9:
+                                self.grid[x][y+1] = 0
+                    elif pix ==  14:
+                        if pyxel.rndi(0,2) == 0:
+                            self.grid[x][y] = 13
+   
+   
+   
+                    #steam
+                    elif pix ==  6:
+                        if pyxel.rndi(0,1000) == 0:
+                            self.grid[x][y] = -3
                             break
-                
-                #glass
-                if self.grid[x][y] == 8:
-                    if pyxel.rndi(0,50) == 0 and not self.grid[x][y+1] in [8,0]:
-                        self.grid[x][y] = -18
-                        break
-                    ofset = (pyxel.rndi(0,1)*2)-1
-                    X = x
-                    Y = y
-                    if abs(self.grid[X+ofset][Y]) in fall and 0 < X+ofset < size-1:
-                        X+=ofset
-                    if abs(self.grid[X][Y+1]) in fall  and Y < size-2:
-                        Y+=1
-                   
-                    if (X,Y) != (x,y):
-                        self.grid[x][y] = self.grid[X][Y]
-                        self.grid[X][Y] = -8
-                
-                
-                #acid
-                if self.grid[x][y] == 19:
-                    ofset = (pyxel.rndi(0,1)*2)-1
-                    X = x
-                    Y = y
-                    if abs(self.grid[X+ofset][Y]) not in [18,19] and 0 < X+ofset < size-1:
-                        X+=ofset
-                    if abs(self.grid[X][Y+1]) not in [18,19]  and Y < size-2:
-                        Y+=1
-                   
-                    if (X,Y) != (x,y):
-                        self.grid[x][y] = 0
-                        self.grid[X][Y] = -19
-                    
+                        X = x
+                        Y = y
+                        ofset = (pyxel.rndi(0,1)*2)-1
+                        if self.grid[X+ofset][Y] in [3,0] and 0 < X+ofset < size-1:
+                            X+=ofset
+                        if self.grid[X][Y-1] in [3,0]:
+                            Y -= 1
+                        if Y-1 < 1:
+                            Y+=1
+                        elif (X,Y) != (x,y):
+                            self.grid[x][y] = 0
+                            self.grid[X][Y] = -6
+   
+                    #oil
+                    elif self.grid[x][y]==16:
+                            if pyxel.rndi(0,1) == 0:
+                                self.grid[x][y] = -9
+                                break
+                    if self.grid[x][y] in [15,16]:
+                        ofset = (pyxel.rndi(0,1)*2)-1
+                        X = x
+                        Y = y
+                        if abs(self.grid[X+ofset][Y]) in oilfall and 0 < X+ofset < size-1:
+                            X+=ofset
+                        if abs(self.grid[X][Y+1]) in oilfall  and Y < size-2:
+                            Y+=1
+   
+                        if (X,Y) != (x,y):
+                            self.grid[x][y] = self.grid[X][Y]
+                            self.grid[X][Y] = -15
+   
+                    #goop
+                    elif pix ==  11:
+                        X = x
+                        Y = y
+                        if pyxel.rndi(0,10) == 0:
+                            ofset = (pyxel.rndi(0,1)*2)-1
+                            if abs(self.grid[X+ofset][Y]) in goopfall and 0 < X+ofset < size-1:
+                                X+=ofset
+                        if abs(self.grid[X][Y+1]) in goopfall  and Y < size-2:
+                            Y+=1
+   
+                        if (X,Y) != (x,y):
+                            self.grid[x][y] = self.grid[X][Y]
+                            self.grid[X][Y] = -11
+   
+                    #grapes
+                    elif pix ==  2:
+                        for i in range(3):
+                            ofset = ((i+1)%3)-1
+                            if (self.grid[x+ofset][y+1] in grapefall) and 0 < x+ofset < size-1 and y < size-2:
+                                self.grid[x][y] = self.grid[x+ofset][y+1]
+                                self.grid[x+ofset][y+1] = -2
+                                break
+   
+                    #glass
+                    elif pix ==  8:
+                        if pyxel.rndi(0,50) == 0 and not self.grid[x][y+1] in [8,0]:
+                            self.grid[x][y] = -18
+                            break
+                        ofset = (pyxel.rndi(0,1)*2)-1
+                        X = x
+                        Y = y
+                        if abs(self.grid[X+ofset][Y]) in fall and 0 < X+ofset < size-1:
+                            X+=ofset
+                        if abs(self.grid[X][Y+1]) in fall  and Y < size-2:
+                            Y+=1
+   
+                        if (X,Y) != (x,y):
+                            self.grid[x][y] = self.grid[X][Y]
+                            self.grid[X][Y] = -8
+   
+                    #acid
+                    elif pix ==  19:
+                        ofset = (pyxel.rndi(0,1)*2)-1
+                        X = x
+                        Y = y
+                        if abs(self.grid[X+ofset][Y]) not in [18,19] and 0 < X+ofset < size-1:
+                            X+=ofset
+                        if abs(self.grid[X][Y+1]) not in [18,19]  and Y < size-2:
+                            Y+=1
+   
+                        if (X,Y) != (x,y):
+                            self.grid[x][y] = 0
+                            self.grid[X][Y] = -19
 
-                   
-                   
+
         for x in range(size):
             for y in range(size):
                 self.grid[x][y] = abs(self.grid[x][y])
                 if y > size-2:
                     self.grid[x][y] = 0
-                   
+
 
     def draw(self):
         pyxel.cls(0)
