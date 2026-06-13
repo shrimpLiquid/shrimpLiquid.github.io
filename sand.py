@@ -45,6 +45,7 @@ class App:
         self.grid = base
         self.spouts = []
         self.bs = 0
+        self.smooth = False
         pyxel.colors[14] = 0xA09595
         pyxel.colors[12] = 0x505050
         pyxel.colors[15] = 0xbc8c03
@@ -80,6 +81,9 @@ class App:
                        t = 0
                if t:
                 self.spouts.append([pyxel.mouse_x,pyxel.mouse_y,self.e])
+        if pyxel.btnp(pyxel.KEY_PERIOD):
+            pyxel.screen_mode(self.smooth)
+            self.smooth = not self.smooth
         if pyxel.btn(pyxel.KEY_0):
             self.e = 0
         if pyxel.btn(pyxel.KEY_1):
@@ -159,6 +163,9 @@ class App:
                             X+=ofset
                         if self.grid[X][Y-1] in [0,9]:
                             Y -= 1
+                        else:
+                            self.grid[x][y] = 0
+                            break
                         if Y-1 < 1:
                             self.grid[x][y] = 0
                         elif (X,Y) != (x,y):
@@ -212,7 +219,14 @@ class App:
                         if (X,Y) != (x,y):
                             self.grid[x][y] = self.grid[X][Y]
                             self.grid[X][Y] = -15
-   
+
+                    #stone
+                    elif pix ==  12:
+                        if self.grid[x][y+1] in fall and y < size-2:
+                            self.grid[x][y] = self.grid[x][y+1]
+                            self.grid[x][y+1] = -12
+
+
                     #goop
                     elif pix ==  11:
                         X = x
@@ -221,8 +235,9 @@ class App:
                             ofset = (pyxel.rndi(0,1)*2)-1
                             if abs(self.grid[X+ofset][Y]) in goopfall and 0 < X+ofset < size-1:
                                 X+=ofset
-                        if abs(self.grid[X][Y+1]) in goopfall  and Y < size-2:
-                            Y+=1
+                        if pyxel.rndi(0,4) == 0:
+                            if abs(self.grid[X][Y+1]) in goopfall  and Y < size-2:
+                                Y += 1
    
                         if (X,Y) != (x,y):
                             self.grid[x][y] = self.grid[X][Y]
@@ -239,7 +254,7 @@ class App:
    
                     #glass
                     elif pix ==  8:
-                        if pyxel.rndi(0,50) == 0 and not self.grid[x][y+1] in [8,0]:
+                        if pyxel.rndi(0,5) == 0 and not self.grid[x][y+1] in [8,0]:
                             self.grid[x][y] = -18
                             break
                         ofset = (pyxel.rndi(0,1)*2)-1
@@ -285,7 +300,9 @@ class App:
         pyxel.camera(0,-5)
         for x in range(size):
             for y in range(size):
-                pyxel.pset(x,y+1,(self.grid[x][y]))
+                pix = self.grid[x][y]
+                if pix != 0:
+                    pyxel.pset(x,y+1,(self.grid[x][y]))
         pyxel.pset(pyxel.mouse_x,pyxel.mouse_y+1,7)
         pyxel.text(0,-5,str(self.bs+1),7)
         pyxel.text(10,-5,str(elements[self.e]),self.e)
