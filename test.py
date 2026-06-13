@@ -17,8 +17,7 @@ class App:
         self.stone = [[1000,1000]]
         self.steam = [[1000,1000]]
         self.ice = [[1000,1000]]
-        pyxel.init(300, 300,fps=60,display_scale=2)
-        pyxel.screen_mode(1)
+        pyxel.init(100, 100,fps=60)
         pyxel.run(self.update, self.draw)
 
 
@@ -98,7 +97,7 @@ class App:
             pyxel.pset(p[x],p[y],12)
         for p in common(self.water,self.wood):
             pyxel.pset(p[x],p[y],1)
-        pyxel.rectb(0,0,300,300,2)
+        pyxel.rectb(0,0,100,100,2)
 
         if pyxel.btn(pyxel.MOUSE_BUTTON_LEFT) :
             if self.e == 10:
