@@ -13,6 +13,8 @@ grapefall = list(fall)
 grapefall.remove(3)
 
 base = []
+
+dark = [0,20]
 elements = {0:"air",
             10:"sand",
             3:"water",
@@ -23,7 +25,8 @@ elements = {0:"air",
             12:"stone",
             15:"oil",
             2:"grapes",
-            19:"acid"
+            19:"acid",
+            20:"smoke"
             }
 
 elearry = []
@@ -54,6 +57,7 @@ class App:
         pyxel.colors.append(0x6b4852)
         pyxel.colors.append(0xdddddd)
         pyxel.colors.append(0xaaff00)
+        pyxel.colors.append(0x252525)
         pyxel.init(size, size+5,fps=60)
         pyxel.screen_mode(1)
         pyxel.run(self.update, self.draw)
@@ -106,6 +110,8 @@ class App:
             self.e = 2
         if pyxel.btn(pyxel.KEY_Q):
             self.e = 19
+        if pyxel.btn(pyxel.KEY_W):
+            self.e = 20
 
 
         for x in range(size):
@@ -175,6 +181,8 @@ class App:
                     #wood
                     elif pix ==  17 and pyxel.rndi(0,10) == 0:
                         self.grid[x][y] = -9
+                        if self.grid[x][y-1] == 0:
+                            self.grid[x][y-1] = -20
    
                     #metal
                     elif pix ==  13:
@@ -287,6 +295,21 @@ class App:
                                 self.grid[x][y] = 0
                                 self.grid[X][Y] = 0
 
+                    # smoke
+                    elif pix == 20:
+                        X = x
+                        Y = y
+                        ofset = (pyxel.rndi(0,1)*2)-1
+                        if self.grid[X+ofset][Y] == 0 and 0 < X+ofset < size-1:
+                            X+=ofset
+                        if self.grid[X][Y-1] == 0:
+                            Y -= 1
+                        if Y-1 < 1:
+                            Y+=1
+                        elif (X,Y) != (x,y):
+                            self.grid[x][y] = 0
+                            self.grid[X][Y] = -20
+
 
         for x in range(size):
             for y in range(size):
@@ -305,6 +328,8 @@ class App:
                     pyxel.pset(x,y+1,(self.grid[x][y]))
         pyxel.pset(pyxel.mouse_x,pyxel.mouse_y+1,7)
         pyxel.text(0,-5,str(self.bs+1),7)
+        if self.e in dark:
+            pyxel.rect(9,-5,20,6,91)
         pyxel.text(10,-5,str(elements[self.e]),self.e)
         # pyxel.text(1,1,str(self.bs+1),7)
 
