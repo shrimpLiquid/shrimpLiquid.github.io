@@ -1,6 +1,6 @@
 import pyxel
 from random import randint as ran
-fall = [0,3,6,15,19]
+fall = [0,3,6,15,19,20]
 
 waterfall = list(fall)
 waterfall.remove(3)
