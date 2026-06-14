@@ -49,6 +49,7 @@ class App:
         self.spouts = []
         self.bs = 0
         self.smooth = False
+        self.ball = True
         pyxel.colors[14] = 0xA09595
         pyxel.colors[12] = 0x505050
         pyxel.colors[15] = 0xbc8c03
@@ -73,9 +74,10 @@ class App:
         if not pyxel.btn(pyxel.KEY_SHIFT):
             if pyxel.btn(pyxel.MOUSE_BUTTON_LEFT):
                 X,Y = pyxel.mouse_x,pyxel.mouse_y
+                pyxel.circ(X,Y,self.bs/2,1)
                 for x in range((self.bs)+1):
                     for y in range((self.bs)+1):
-                        if (not self.e in [9]) or self.grid[pyxel.clamp((x-int(self.bs/2))+X,1,size-2)][pyxel.clamp((y-int(self.bs/2))+Y,2,size-2)] == 0:
+                        if ((not self.e in [9]) or self.grid[pyxel.clamp((x-int(self.bs/2))+X,1,size-2)][pyxel.clamp((y-int(self.bs/2))+Y,2,size-2)] == 0) and (pyxel.pget(pyxel.clamp((x-int(self.bs/2))+X,1,size-2),pyxel.clamp((y-int(self.bs/2))+5+Y,2,size-2)) == 1 or self.ball):
                             self.grid[pyxel.clamp((x-int(self.bs/2))+X,1,size-2)][pyxel.clamp((y-int(self.bs/2))+Y,2,size-2)] = self.e
         else:
            if pyxel.btn(pyxel.MOUSE_BUTTON_LEFT):
@@ -88,6 +90,8 @@ class App:
         if pyxel.btnp(pyxel.KEY_PERIOD):
             pyxel.screen_mode(self.smooth)
             self.smooth = not self.smooth
+        if pyxel.btnp(pyxel.KEY_COMMA):
+            self.ball = not self.ball
         if pyxel.btn(pyxel.KEY_0):
             self.e = 0
         if pyxel.btn(pyxel.KEY_1):
@@ -329,8 +333,9 @@ class App:
         pyxel.pset(pyxel.mouse_x,pyxel.mouse_y+1,7)
         pyxel.text(0,-5,str(self.bs+1),7)
         if self.e in dark:
-            pyxel.rect(9,-5,20,6,91)
+            pyxel.rect(9,-5,20,6,7)
         pyxel.text(10,-5,str(elements[self.e]),self.e)
+
         # pyxel.text(1,1,str(self.bs+1),7)
 
 App()
