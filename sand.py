@@ -331,18 +331,11 @@ class App:
                                 self.grid[x][y] = self.grid[x+ofset][y+1]
                                 self.grid[x+ofset][y+1] = -21
                                 break
-                    elif pix == 121:
-                        for dir in range(4):
-                                X = x+((dir%2)*2)-1
-                                Y = y
-                                if 1 > y > size-1:
-                                    Y += (int((dir+1)/2)*2)-1
-                                if self.grid[X][Y] == 9:
-                                    for xr in range((explosionsize)+1):
-                                        for yr in range((explosionsize)+1):
-                                            XX,YY = pyxel.clamp((xr-int(explosionsize/2))+X,1,size-2),pyxel.clamp((yr-int(explosionsize/2))+Y,2,size-2)
-                                            self.grid[XX][YY] = 9
-                                    break
+                    elif pix == 121 and pyxel.rndi(0,10) == 0:
+                        for xr in range((explosionsize)+1):
+                            for yr in range((explosionsize)+1):
+                                XX,YY = pyxel.clamp((xr-int(explosionsize/2))+x,1,size-2),pyxel.clamp((yr-int(explosionsize/2))+y,2,size-2)
+                                self.grid[XX][YY] = 9
                     
                                         
                 
