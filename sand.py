@@ -26,12 +26,15 @@ elements = {0:"air",
             15:"oil",
             2:"grapes",
             19:"acid",
-            20:"smoke"
+            20:"smoke",
+            21:"gunpowder"
             }
 
 elearry = []
 for e in elements:
     elearry.append(e)
+
+explosionsize = 10
 
 size = 100
 yyyyy = []
@@ -59,6 +62,8 @@ class App:
         pyxel.colors.append(0xdddddd)
         pyxel.colors.append(0xaaff00)
         pyxel.colors.append(0x252525)
+        pyxel.colors.append(0x795F4D)
+        pyxel.colors.append(0xff0000)
         pyxel.init(size, size+5,fps=60)
         pyxel.screen_mode(1)
         pyxel.run(self.update, self.draw)
@@ -115,7 +120,7 @@ class App:
         if pyxel.btn(pyxel.KEY_Q):
             self.e = 19
         if pyxel.btn(pyxel.KEY_W):
-            self.e = 20
+            self.e = 21
 
 
         for x in range(size):
@@ -161,12 +166,16 @@ class App:
                                 self.grid[X+i][Y] = -17
                             if abs(self.grid[pyxel.clamp(X+i,1,size-1)][Y]) == 15:
                                 self.grid[X+i][Y] = -9
+                            if abs(self.grid[pyxel.clamp(X+i,1,size-1)][Y]) == 21:
+                                self.grid[X+i][Y] = 121
                         for I in range(2):
                             i = (I*2)-1
                             if abs(self.grid[X][pyxel.clamp(Y+i,1,size-2)]) == 4:
                                 self.grid[X][Y+i] = -17
                             if abs(self.grid[X][pyxel.clamp(Y+i,1,size-2)]) == 15:
                                 self.grid[X][Y+i] = -9
+                            if abs(self.grid[X][pyxel.clamp(Y+i,1,size-2)]) == 21:
+                                self.grid[X][Y+i] = 121
    
                         ofset = (pyxel.rndi(0,1)*2)-1
                         if self.grid[X+ofset][Y] in [0,9] and 0 < X+ofset < size-1:
@@ -313,13 +322,30 @@ class App:
                         elif (X,Y) != (x,y):
                             self.grid[x][y] = 0
                             self.grid[X][Y] = -20
-
-
-        for x in range(size):
-            for y in range(size):
-                self.grid[x][y] = abs(self.grid[x][y])
-                if y > size-2:
-                    self.grid[x][y] = 0
+                    
+                    #gunpowder
+                    elif pix == 21:
+                        for i in range(3):
+                            ofset = ((i+1)%3)-1
+                            if (self.grid[x+ofset][y+1] in fall) and 0 < x+ofset < size-1 and y < size-2:
+                                self.grid[x][y] = self.grid[x+ofset][y+1]
+                                self.grid[x+ofset][y+1] = -21
+                                break
+                    elif pix == 121:
+                        for dir in range(4):
+                                X = x+((dir%2)*2)-1
+                                Y = y
+                                if 1 > y > size-1:
+                                    Y += (int((dir+1)/2)*2)-1
+                                if self.grid[X][Y] == 9:
+                                    for xr in range((explosionsize)+1):
+                                        for yr in range((explosionsize)+1):
+                                            XX,YY = pyxel.clamp((xr-int(explosionsize/2))+X,1,size-2),pyxel.clamp((yr-int(explosionsize/2))+Y,2,size-2)
+                                            self.grid[XX][YY] = 9
+                                    break
+                    
+                                        
+                
 
 
     def draw(self):
@@ -328,13 +354,16 @@ class App:
         for x in range(size):
             for y in range(size):
                 pix = self.grid[x][y]
-                if pix != 0:
-                    pyxel.pset(x,y+1,(self.grid[x][y]))
+                if y > size-2:
+                    self.grid[x][y] = 0
+                elif pix != 0:
+                    self.grid[x][y] = abs(pix)
+                    pyxel.pset(x,y+1,(self.grid[x][y])%100)
         pyxel.pset(pyxel.mouse_x,pyxel.mouse_y+1,7)
         pyxel.text(0,-5,str(self.bs+1),7)
-        if self.e in dark:
-            pyxel.rect(9,-5,20,6,7)
         pyxel.text(10,-5,str(elements[self.e]),self.e)
+        if self.e in dark:
+            pyxel.text(10,-5,str(elements[self.e]),7)
 
         # pyxel.text(1,1,str(self.bs+1),7)
 
