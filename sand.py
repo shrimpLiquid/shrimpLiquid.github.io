@@ -164,7 +164,6 @@ class App:
    
                     #FIRE
                     elif pix == 9:
-                        print(pix)
                         X = x
                         Y = y
                         for I in range(2):
