@@ -1,6 +1,7 @@
 import pyxel
 from random import randint as ran
-fall = [0,3,6,15,19,20]
+from math import trunc
+fall = [0,3,6,15,19,20,9,109]
 
 waterfall = list(fall)
 waterfall.remove(3)
@@ -15,6 +16,9 @@ grapefall.remove(3)
 base = []
 
 dark = [0,20]
+
+burn = [21,4,15]
+
 elements = {0:"air",
             10:"sand",
             3:"water",
@@ -27,7 +31,8 @@ elements = {0:"air",
             2:"grapes",
             19:"acid",
             20:"smoke",
-            21:"gunpowder"
+            21:"gunpowder",
+            22:"lava",
             }
 
 elearry = []
@@ -63,7 +68,7 @@ class App:
         pyxel.colors.append(0xaaff00)
         pyxel.colors.append(0x252525)
         pyxel.colors.append(0x795F4D)
-        pyxel.colors.append(0xff0000)
+        pyxel.colors.append(0xdf3a3f)
         pyxel.init(size, size+5,fps=60)
         pyxel.screen_mode(1)
         pyxel.run(self.update, self.draw)
@@ -121,6 +126,8 @@ class App:
             self.e = 19
         if pyxel.btn(pyxel.KEY_W):
             self.e = 21
+        if pyxel.btn(pyxel.KEY_E):
+            self.e = 22
 
 
         for x in range(size):
@@ -156,10 +163,10 @@ class App:
                             self.grid[X][Y] = -6
    
                     #FIRE
-                    elif pix ==  9:
+                    elif pix == 9:
+                        print(pix)
                         X = x
                         Y = y
-   
                         for I in range(2):
                             i = (I*2)-1
                             if abs(self.grid[pyxel.clamp(X+i,1,size-1)][Y]) == 4:
@@ -189,7 +196,7 @@ class App:
                             self.grid[x][y] = 0
                         elif (X,Y) != (x,y):
                             self.grid[x][y] = 0
-                            self.grid[X][Y] = -9
+                            self.grid[X][Y] = -pix
    
                     #wood
                     elif pix ==  17 and pyxel.rndi(0,10) == 0:
@@ -329,14 +336,45 @@ class App:
                             ofset = ((i+1)%3)-1
                             if (self.grid[x+ofset][y+1] in fall) and 0 < x+ofset < size-1 and y < size-2:
                                 self.grid[x][y] = self.grid[x+ofset][y+1]
-                                self.grid[x+ofset][y+1] = -21
+                                self.grid[x+ofset][y+1] =pix*-1
                                 break
                     elif pix == 121 and pyxel.rndi(0,10) == 0:
                         for xr in range((explosionsize)+1):
                             for yr in range((explosionsize)+1):
                                 XX,YY = pyxel.clamp((xr-int(explosionsize/2))+x,1,size-2),pyxel.clamp((yr-int(explosionsize/2))+y,2,size-2)
-                                self.grid[XX][YY] = 9
+                                self.grid[XX][YY] = -9
                     
+                    #LAVA
+                    elif pix == 22:
+                        X = x
+                        Y = y
+                        for I in range(2):
+                            i = (I*2)-1
+                            place = abs(self.grid[pyxel.clamp(X+i,1,size-1)][Y])
+                            if place == 3:
+                                self.grid[X][Y] = 12
+                                if pyxel.rndi(0,10) == 0:
+                                    self.grid[X+i][Y] = -6
+                            if place in burn:
+                                self.grid[X+i][Y] = 9
+                        for I in range(2):
+                            i = (I*2)-1
+                            place = abs(self.grid[X][pyxel.clamp(Y+i,1,size-2)])
+                            if place == 3:
+                                self.grid[X][Y] = 12
+                                if pyxel.rndi(0,10) == 0:
+                                    self.grid[X][Y+i] = 6
+                            if place in burn:
+                                self.grid[X][Y+i] = 9
+                            ofset = (pyxel.rndi(0,1)*2)-1
+                            if abs(self.grid[X+ofset][Y]) in goopfall and 0 < X+ofset < size-1:
+                                X+=ofset
+                            if abs(self.grid[X][Y+1]) in goopfall  and Y < size-2:
+                                Y += 1
+   
+                        if (X,Y) != (x,y):
+                            self.grid[x][y] = self.grid[X][Y]
+                            self.grid[X][Y] = -22
                                         
                 
 
@@ -354,7 +392,7 @@ class App:
                     pyxel.pset(x,y+1,(self.grid[x][y])%100)
         pyxel.pset(pyxel.mouse_x,pyxel.mouse_y+1,7)
         pyxel.text(0,-5,str(self.bs+1),7)
-        pyxel.text(10,-5,str(elements[self.e]),self.e)
+        pyxel.text(10,-5,str(elements[self.e]),self.e%100)
         if self.e in dark:
             pyxel.text(10,-5,str(elements[self.e]),7)
 
