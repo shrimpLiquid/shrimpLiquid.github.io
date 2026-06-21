@@ -83,7 +83,7 @@ class App:
 
         if not pyxel.btn(pyxel.KEY_SHIFT):
             if pyxel.btn(pyxel.MOUSE_BUTTON_LEFT):
-                X,Y = pyxel.mouse_x,pyxel.mouse_y
+                X,Y = pyxel.mouse_x,pyxel.mouse_y-5
                 pyxel.circ(X,Y,self.bs/2,1)
                 for x in range((self.bs)+1):
                     for y in range((self.bs)+1):
@@ -389,7 +389,7 @@ class App:
                 elif pix != 0:
                     self.grid[x][y] = abs(pix)
                     pyxel.pset(x,y+1,(self.grid[x][y])%100)
-        pyxel.pset(pyxel.mouse_x,pyxel.mouse_y+1,7)
+        pyxel.pset(pyxel.mouse_x,pyxel.mouse_y-4,7)
         pyxel.text(0,-5,str(self.bs+1),7)
         pyxel.text(10,-5,str(elements[self.e]),self.e%100)
         if self.e in dark:

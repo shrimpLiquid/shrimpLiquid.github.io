@@ -49,7 +49,7 @@ class App:
 		
 
 			#p[0],p[1]=p[0]%(100*sm),p[1]%(100*sm)
-			p[0],p[1]=clamp(p[0],0,(100*sm)),clamp(p[1],0,(100*sm))
+			p[0],p[1]=pyxel.clamp(p[0],0,(100*sm)),pyxel.clamp(p[1],0,(100*sm))
 		
 
 App()
