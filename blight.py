@@ -5,7 +5,7 @@ class App:
 	def __init__(self):
 		pyxel.init(int(100*sm), int(100*sm),fps=30)
 		#self.p = [[90,50,8],[10,50,5],[50,10,11],[50,90,10]]#4
-		pyxel.screen_mode(1)
+		pyxel.screen_mode(0)
 		self.p = [[10,10,1],[50,10,2],[90,10,3],[10,50,8],[50,50,9],[90,50,4],[10,90,7],[50,90,6],[90,90,5]]
 		pyxel.colors.from_list([0x000000,0xff4444,0xff7f44,0xffff44,0x44ff44,0x44ffff,0x4444ff,0x7f44ff,0xff44ff,0xffffff])
 		pyxel.run(self.update, self.draw)
@@ -14,6 +14,9 @@ class App:
 	def update(self):
 		if pyxel.btn(pyxel.KEY_R) or pyxel.btn(pyxel.MOUSE_BUTTON_LEFT):
 			self.p = [[10,10,1],[50,10,2],[90,10,3],[10,50,8],[50,50,9],[90,50,4],[10,90,7],[50,90,6],[90,90,5]]
+			for p in self.p:
+				p[0]=p[0]*sm
+				p[1]=p[1]*sm
 		if pyxel.frame_count == 0:
 			for p in self.p:
 				p[0]=p[0]*sm
