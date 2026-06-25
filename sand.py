@@ -69,7 +69,7 @@ class App:
         pyxel.colors.append(0x252525)
         pyxel.colors.append(0x795F4D)
         pyxel.colors.append(0xdf3a3f)
-        pyxel.init(size, size+5,fps=60)
+        pyxel.init(size+5, size+5,fps=60)
         pyxel.screen_mode(1)
         pyxel.run(self.update, self.draw)
 
@@ -82,8 +82,9 @@ class App:
            self.grid[s[0]][s[1]] = s[2]
 
         if not pyxel.btn(pyxel.KEY_SHIFT):
-            if pyxel.btn(pyxel.MOUSE_BUTTON_LEFT):
-                X,Y = pyxel.mouse_x,pyxel.mouse_y-5
+            if pyxel.btn(pyxel.MOUSE_BUTTON_LEFT) and pyxel.mouse_x-5 > 0:
+                X,Y = pyxel.mouse_x-5,pyxel.mouse_y-5
+                
                 pyxel.circ(X,Y,self.bs/2,1)
                 for x in range((self.bs)+1):
                     for y in range((self.bs)+1):
@@ -380,7 +381,7 @@ class App:
 
     def draw(self):
         pyxel.cls(0)
-        pyxel.camera(0,-5)
+        pyxel.camera(-5,-5)
         for x in range(size):
             for y in range(size):
                 pix = self.grid[x][y]
@@ -389,7 +390,15 @@ class App:
                 elif pix != 0:
                     self.grid[x][y] = abs(pix)
                     pyxel.pset(x,y+1,(self.grid[x][y])%100)
-        pyxel.pset(pyxel.mouse_x,pyxel.mouse_y-4,7)
+
+        for i in range(len(elearry)):
+            pyxel.circ(-5,i*6,3,elearry[i])
+            if pyxel.btnp(pyxel.MOUSE_BUTTON_LEFT):
+                if pyxel.mouse_x-5 < 0:
+                    if (i*6)+3 > pyxel.mouse_y-5 > (i*6)-3:
+                        self.e = elearry[i]
+        pyxel.pset(pyxel.mouse_x-5,pyxel.mouse_y-4,7)
+        pyxel.line(0,1,0,100,7)
         pyxel.text(0,-5,str(self.bs+1),7)
         pyxel.text(10,-5,str(elements[self.e]),self.e%100)
         if self.e in dark:
