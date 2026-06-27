@@ -37,7 +37,8 @@ elements = {0:"air",
 
 elearry = []
 for e in elements:
-    elearry.append(e)
+    if e not in [20]:
+        elearry.append(e)
 
 explosionsize = 10
 
@@ -82,13 +83,13 @@ class App:
            self.grid[s[0]][s[1]] = s[2]
 
         if not pyxel.btn(pyxel.KEY_SHIFT):
-            if pyxel.btn(pyxel.MOUSE_BUTTON_LEFT) and pyxel.mouse_x-5 > 0:
+            if pyxel.btn(pyxel.MOUSE_BUTTON_LEFT) and pyxel.mouse_x-5 > 0 and pyxel.mouse_y-5 > 1:
                 X,Y = pyxel.mouse_x-5,pyxel.mouse_y-5
                 
-                pyxel.circ(X,Y,self.bs/2,1)
+                pyxel.circ(X-5,Y,self.bs/2,1)
                 for x in range((self.bs)+1):
                     for y in range((self.bs)+1):
-                        if ((not self.e in [9]) or self.grid[pyxel.clamp((x-int(self.bs/2))+X,1,size-2)][pyxel.clamp((y-int(self.bs/2))+Y,2,size-2)] == 0) and (pyxel.pget(pyxel.clamp((x-int(self.bs/2))+X,1,size-2),pyxel.clamp((y-int(self.bs/2))+5+Y,2,size-2)) == 1 or self.ball):
+                        if ((not self.e in [9]) or self.grid[pyxel.clamp((x-int(self.bs/2))+X,1,size-2)][pyxel.clamp((y-int(self.bs/2))+Y,2,size-2)] == 0) and (pyxel.pget(pyxel.clamp((x-int(self.bs/2))+X,1,size-2),pyxel.clamp((y-int(self.bs/2))+5+Y,2,size-2)) == 1 or not self.ball):
                             self.grid[pyxel.clamp((x-int(self.bs/2))+X,1,size-2)][pyxel.clamp((y-int(self.bs/2))+Y,2,size-2)] = self.e
         else:
            if pyxel.btn(pyxel.MOUSE_BUTTON_LEFT):
@@ -391,14 +392,28 @@ class App:
                     self.grid[x][y] = abs(pix)
                     pyxel.pset(x,y+1,(self.grid[x][y])%100)
 
+        pyxel.circ(95,-2,3,7)
+        pyxel.line(93,-2,97,-2,3)
+        pyxel.line(95,0,95,-4,3)
+
+        pyxel.circ(85,-2,3,7)
+        pyxel.line(83,-2,87,-2,22)
+
+        if pyxel.btnp(pyxel.MOUSE_BUTTON_LEFT) and pyxel.mouse_y-5 < 1:
+            if 95+3 > pyxel.mouse_x-5 > 95-3:
+                self.bs+=1
+            if 85+3 > pyxel.mouse_x-5 > 85-3:
+                self.bs-=1
+
         for i in range(len(elearry)):
-            pyxel.circ(-5,i*6,3,elearry[i])
-            if pyxel.btnp(pyxel.MOUSE_BUTTON_LEFT):
+            pyxel.rect(-5,i*6,6,5,elearry[i])
+            if pyxel.btn(pyxel.MOUSE_BUTTON_LEFT):
                 if pyxel.mouse_x-5 < 0:
-                    if (i*6)+3 > pyxel.mouse_y-5 > (i*6)-3:
+                    if (i*6)+6 > pyxel.mouse_y-5 > (i*6):
                         self.e = elearry[i]
         pyxel.pset(pyxel.mouse_x-5,pyxel.mouse_y-4,7)
         pyxel.line(0,1,0,100,7)
+        pyxel.line(1,2,100,2,7)
         pyxel.text(0,-5,str(self.bs+1),7)
         pyxel.text(10,-5,str(elements[self.e]),self.e%100)
         if self.e in dark:
