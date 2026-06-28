@@ -399,11 +399,26 @@ class App:
         pyxel.circ(85,-2,3,7)
         pyxel.line(83,-2,87,-2,22)
 
+        pyxel.circ(75,-2,3,7)
+        pyxel.line(74,-1,76,-3,4)
+
+        if self.ball:
+            pyxel.circb(65,-2,2,7)
+        else:
+            pyxel.rectb(63,-4,5,5,7)
+
+
         if pyxel.btnp(pyxel.MOUSE_BUTTON_LEFT) and pyxel.mouse_y-5 < 1:
             if 95+3 > pyxel.mouse_x-5 > 95-3:
                 self.bs+=1
             if 85+3 > pyxel.mouse_x-5 > 85-3:
                 self.bs-=1
+            if 75+3 > pyxel.mouse_x-5 > 75-3:
+                pyxel.screen_mode(self.smooth)
+                self.smooth = not self.smooth
+            if 65+2 > pyxel.mouse_x-5 > 65-2:
+                self.ball = not self.ball
+            
 
         for i in range(len(elearry)):
             pyxel.rect(-5,i*6,6,5,elearry[i])
