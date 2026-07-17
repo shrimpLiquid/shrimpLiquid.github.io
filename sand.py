@@ -76,7 +76,6 @@ class App:
 
 
     def update(self):
-
         self.bs = max(self.bs + int(pyxel.mouse_wheel/1),0)
 
         for s in self.spouts:
@@ -370,8 +369,8 @@ class App:
                             ofset = (pyxel.rndi(0,1)*2)-1
                             if abs(self.grid[X+ofset][Y]) in goopfall and 0 < X+ofset < size-1:
                                 X+=ofset
-                            if abs(self.grid[X][Y+1]) in goopfall  and Y < size-2:
-                                Y += 1
+                        if abs(self.grid[X][Y+1]) in goopfall  and Y < size-2:
+                            Y += 1
    
                         if (X,Y) != (x,y):
                             self.grid[x][y] = self.grid[X][Y]
