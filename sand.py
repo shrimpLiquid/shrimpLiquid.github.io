@@ -13,7 +13,6 @@ oilfall.remove(3)
 grapefall = list(fall)
 grapefall.remove(3)
 
-base = []
 
 dark = [0,20]
 
@@ -43,18 +42,27 @@ for e in elements:
 explosionsize = 10
 
 size = 100
-yyyyy = []
+
+global grid
+grid = ""
+def gset(XXX,YYY,value):
+    idx = XXX+(YYY*100)
+    return grid[:idx] + chr(value+100) + grid[idx+1:]
+def gget(XXX,YYY):
+    return(ord(grid[XXX+(YYY*100)])-100)
+
+yyyyy = ""
 for i in range(size):
-    yyyyy.append(0)
+    yyyyy += chr(100)
 for i in range(size):
-    base.append(list(yyyyy))
+    grid += yyyyy
 for i in range(size):
-    base[i][size-1] = 5000
+    gset(i,size-1,500)
 
 class App:
     def __init__(self):
         self.e = 10
-        self.grid = base
+        global grid
         self.spouts = []
         self.bs = 0
         self.smooth = False
@@ -79,7 +87,7 @@ class App:
         self.bs = max(self.bs + int(pyxel.mouse_wheel/1),0)
 
         for s in self.spouts:
-           self.grid[s[0]][s[1]] = s[2]
+           gset(s[0],s[1],s[2])
 
         if not pyxel.btn(pyxel.KEY_SHIFT):
             if pyxel.btn(pyxel.MOUSE_BUTTON_LEFT) and pyxel.mouse_x-5 > 0 and pyxel.mouse_y-5 > 1:
@@ -88,8 +96,8 @@ class App:
                 pyxel.circ(X-5,Y,self.bs/2,1)
                 for x in range((self.bs)+1):
                     for y in range((self.bs)+1):
-                        if ((not self.e in [9]) or self.grid[pyxel.clamp((x-int(self.bs/2))+X,1,size-2)][pyxel.clamp((y-int(self.bs/2))+Y,2,size-2)] == 0) and (pyxel.pget(pyxel.clamp((x-int(self.bs/2))+X,1,size-2),pyxel.clamp((y-int(self.bs/2))+5+Y,2,size-2)) == 1 or not self.ball):
-                            self.grid[pyxel.clamp((x-int(self.bs/2))+X,1,size-2)][pyxel.clamp((y-int(self.bs/2))+Y,2,size-2)] = self.e
+                        if ((not self.e in [9]) or gget(pyxel.clamp((x-int(self.bs/2))+X,1,size-2),pyxel.clamp((y-int(self.bs/2))+Y,2,size-2)) == 0) and (pyxel.pget(pyxel.clamp((x-int(self.bs/2))+X,1,size-2),pyxel.clamp((y-int(self.bs/2))+5+Y,2,size-2)) == 1 or not self.ball):
+                            gset(pyxel.clamp((x-int(self.bs/2))+X,1,size-2),pyxel.clamp((y-int(self.bs/2))+Y,2,size-2),self.e)
         else:
            if pyxel.btn(pyxel.MOUSE_BUTTON_LEFT):
                t = 1
@@ -134,34 +142,35 @@ class App:
         for x in range(size):
             for y in range(size):
                 #SAND
-                pix = self.grid[x][y]
+                pix = gget(x,y)
                 if pix != 0:
                     if pix == 10:
                         for i in range(3):
                             ofset = ((i+1)%3)-1
-                            if (self.grid[x+ofset][y+1] in fall) and 0 < x+ofset < size-1 and y < size-2:
-                                self.grid[x][y] = self.grid[x+ofset][y+1]
-                                self.grid[x+ofset][y+1] = -10
+                            if (gget(x+ofset,y+1) in fall) and 0 < x+ofset < size-1 and y < size-2:
+                                gset(x,y,gget(x+ofset,y+1))
+                                gset(x+ofset,y+1,-10)
                                 break
-                        if self.grid[x][y+1] in [8,14]:
-                                self.grid[x][y] = -8
+                        if gget(x,y+1) in [8,14]:
+                                gset(x,y,-8)
+                                
    
                    #WATER
                     elif pix == 3:
                         ofset = (pyxel.rndi(0,1)*2)-1
                         X = x
                         Y = y
-                        if abs(self.grid[X+ofset][Y]) in waterfall and 0 < X+ofset < size-1:
+                        if abs(gget(X+ofset,Y)) in waterfall and 0 < X+ofset < size-1:
                             X+=ofset
-                        if abs(self.grid[X][Y+1]) in waterfall  and Y < size-2:
+                        if abs(gget(X,Y+1)) in waterfall  and Y < size-2:
                             Y+=1
    
                         if (X,Y) != (x,y):
-                            self.grid[x][y] = self.grid[X][Y]
-                            self.grid[X][Y] = -3
+                            gset(x,y,gget(X,Y))
+                            gset(X,Y,-3)
    
-                        if self.grid[X][Y+1] == 14:
-                            self.grid[X][Y] = -6
+                        if gget(X,Y+1) == 14:
+                            gset(X,Y,-6)
    
                     #FIRE
                     elif pix == 9:
@@ -169,90 +178,90 @@ class App:
                         Y = y
                         for I in range(2):
                             i = (I*2)-1
-                            if abs(self.grid[pyxel.clamp(X+i,1,size-1)][Y]) == 4:
-                                self.grid[X+i][Y] = -17
-                            if abs(self.grid[pyxel.clamp(X+i,1,size-1)][Y]) == 15:
-                                self.grid[X+i][Y] = -9
-                            if abs(self.grid[pyxel.clamp(X+i,1,size-1)][Y]) == 21:
-                                self.grid[X+i][Y] = 121
+                            if abs(gget(pyxel.clamp(X+i,1,size-1),Y)) == 4:
+                                gset(X+i,Y,-17)
+                            if abs(gget(pyxel.clamp(X+i,1,size-1),Y)) == 15:
+                                gset(X+i,Y,-9)
+                            if abs(gget(pyxel.clamp(X+i,1,size-1),Y)) == 21:
+                                gset(X+i,Y,121)
                         for I in range(2):
                             i = (I*2)-1
-                            if abs(self.grid[X][pyxel.clamp(Y+i,1,size-2)]) == 4:
-                                self.grid[X][Y+i] = -17
-                            if abs(self.grid[X][pyxel.clamp(Y+i,1,size-2)]) == 15:
-                                self.grid[X][Y+i] = -9
-                            if abs(self.grid[X][pyxel.clamp(Y+i,1,size-2)]) == 21:
-                                self.grid[X][Y+i] = 121
+                            if abs(gget(X,pyxel.clamp(Y+i,1,size-2))) == 4:
+                                gset(X,Y+i,-17)
+                            if abs(gget(X,pyxel.clamp(Y+i,1,size-2))) == 15:
+                                gset(X,Y+i,-9)
+                            if abs(gget(X,pyxel.clamp(Y+i,1,size-2))) == 21:
+                                gset(X,Y+i,121)
    
                         ofset = (pyxel.rndi(0,1)*2)-1
-                        if self.grid[X+ofset][Y] in [0,9] and 0 < X+ofset < size-1:
+                        if gget(X+ofset,Y) in [0,9] and 0 < X+ofset < size-1:
                             X+=ofset
-                        if self.grid[X][Y-1] in [0,9]:
+                        if gget(X,Y-1) in [0,9]:
                             Y -= 1
                         else:
-                            self.grid[x][y] = 0
+                            gset(x,y,0)
                             break
                         if Y-1 < 1:
-                            self.grid[x][y] = 0
+                            gset(x,y,0)
                         elif (X,Y) != (x,y):
-                            self.grid[x][y] = 0
-                            self.grid[X][Y] = -pix
+                            gset(x,y,0)
+                            gset(X,Y,-pix)
    
                     #wood
                     elif pix ==  17 and pyxel.rndi(0,10) == 0:
-                        self.grid[x][y] = -9
-                        if self.grid[x][y-1] == 0:
-                            self.grid[x][y-1] = -20
+                        gset(x,y,-9)
+                        if gget(x,y-1) == 0:
+                            gset(x,y-1,-20)
    
                     #metal
                     elif pix ==  13:
-                        if self.grid[x][y+1] in [9,14]:
-                            self.grid[x][y] = -14
-                            if self.grid[x][y+1] == 9:
-                                self.grid[x][y+1] = 0
+                        if gget(x,y+1) in [9,14]:
+                            gset(x,y,-14)
+                            if gget(x,y+1) == 9:
+                                gset(x,y+1,0)
                     elif pix ==  14:
                         if pyxel.rndi(0,2) == 0:
-                            self.grid[x][y] = 13
+                            gset(x,y,13)
    
    
    
                     #steam
                     elif pix ==  6:
                         if pyxel.rndi(0,1000) == 0:
-                            self.grid[x][y] = -3
+                            gset(x,y,-3)
                             break
                         X = x
                         Y = y
                         ofset = (pyxel.rndi(0,1)*2)-1
-                        if self.grid[X+ofset][Y] in [3,0] and 0 < X+ofset < size-1:
+                        if gget(X+ofset,Y) in [3,0] and 0 < X+ofset < size-1:
                             X+=ofset
-                        if self.grid[X][Y-1] in [3,0]:
+                        if gget(X,Y-1) in [3,0]:
                             Y -= 1
                         if Y-1 < 1:
                             Y+=1
                         elif (X,Y) != (x,y):
-                            self.grid[x][y] = 0
-                            self.grid[X][Y] = -6
+                            gset(x,y,0)
+                            gset(X,Y,-6)
    
                     #oil
-                    if self.grid[x][y] == 15:
+                    if gget(x,y) == 15:
                         ofset = (pyxel.rndi(0,1)*2)-1
                         X = x
                         Y = y
-                        if abs(self.grid[X+ofset][Y]) in oilfall and 0 < X+ofset < size-1:
+                        if abs(gget(X+ofset,Y)) in oilfall and 0 < X+ofset < size-1:
                             X+=ofset
-                        if abs(self.grid[X][Y+1]) in oilfall  and Y < size-2:
+                        if abs(gget(X,Y+1)) in oilfall  and Y < size-2:
                             Y+=1
    
                         if (X,Y) != (x,y):
-                            self.grid[x][y] = self.grid[X][Y]
-                            self.grid[X][Y] = -15
+                            gset(x,y,gget(X,Y))
+                            gset(X,Y,-15)
 
                     #stone
                     elif pix ==  12:
-                        if self.grid[x][y+1] in fall and y < size-2:
-                            self.grid[x][y] = self.grid[x][y+1]
-                            self.grid[x][y+1] = -12
+                        if gget(x,y+1) in fall and y < size-2:
+                            gset(x,y,gget(x,y+1))
+                            gset(x,y+1,-12)
 
 
                     #goop
@@ -261,88 +270,88 @@ class App:
                         Y = y
                         if pyxel.rndi(0,10) == 0:
                             ofset = (pyxel.rndi(0,1)*2)-1
-                            if abs(self.grid[X+ofset][Y]) in goopfall and 0 < X+ofset < size-1:
+                            if abs(gget(X+ofset,Y)) in goopfall and 0 < X+ofset < size-1:
                                 X+=ofset
                         if pyxel.rndi(0,4) == 0:
-                            if abs(self.grid[X][Y+1]) in goopfall  and Y < size-2:
+                            if abs(gget(X,Y+1)) in goopfall  and Y < size-2:
                                 Y += 1
    
                         if (X,Y) != (x,y):
-                            self.grid[x][y] = self.grid[X][Y]
-                            self.grid[X][Y] = -11
+                            gset(x,y,gget(X,Y))
+                            gset(X,Y,-11)
    
                     #grapes
                     elif pix ==  2:
                         for i in range(3):
                             ofset = ((i+1)%3)-1
-                            if (self.grid[x+ofset][y+1] in grapefall) and 0 < x+ofset < size-1 and y < size-2:
-                                self.grid[x][y] = self.grid[x+ofset][y+1]
-                                self.grid[x+ofset][y+1] = -2
+                            if (gget(x+ofset,y+1) in grapefall) and 0 < x+ofset < size-1 and y < size-2:
+                                gset(x,y,gget(x+ofset,y+1))
+                                gset(x+ofset,y+1,-2)
                                 break
    
                     #glass
                     elif pix ==  8:
-                        if pyxel.rndi(0,5) == 0 and not self.grid[x][y+1] in [8,0]:
-                            self.grid[x][y] = -18
+                        if pyxel.rndi(0,5) == 0 and not gget(x,y+1) in [8,0]:
+                            gset(x,y,-18)
                             break
                         ofset = (pyxel.rndi(0,1)*2)-1
                         X = x
                         Y = y
-                        if abs(self.grid[X+ofset][Y]) in fall and 0 < X+ofset < size-1:
+                        if abs(gget(X+ofset,Y)) in fall and 0 < X+ofset < size-1:
                             X+=ofset
-                        if abs(self.grid[X][Y+1]) in fall  and Y < size-2:
+                        if abs(gget(X,Y+1)) in fall  and Y < size-2:
                             Y+=1
    
                         if (X,Y) != (x,y):
-                            self.grid[x][y] = self.grid[X][Y]
-                            self.grid[X][Y] = -8
+                            gset(x,y,gget(X,Y))
+                            gset(X,Y,-8)
    
                     #acid
                     elif pix ==  19:
                         ofset = (pyxel.rndi(0,1)*2)-1
                         X = x
                         Y = y
-                        if abs(self.grid[X+ofset][Y]) not in [18,19] and 0 < X+ofset < size-1:
+                        if abs(gget(X+ofset,Y)) not in [18,19] and 0 < X+ofset < size-1:
                             X+=ofset
-                        if abs(self.grid[X][Y+1]) not in [18,19]  and Y < size-2:
+                        if abs(gget(X,Y+1)) not in [18,19]  and Y < size-2:
                             Y+=1
    
                         if (X,Y) != (x,y):
-                            if self.grid[X][Y] == 0:
-                                self.grid[x][y] = 0
-                                self.grid[X][Y] = -19
+                            if gget(X,Y) == 0:
+                                gset(x,y,0)
+                                gset(X,Y,-19)
                             else:
-                                self.grid[x][y] = 0
-                                self.grid[X][Y] = 0
+                                gset(x,y,0)
+                                gset(X,Y,0)
 
                     # smoke
                     elif pix == 20:
                         X = x
                         Y = y
                         ofset = (pyxel.rndi(0,1)*2)-1
-                        if self.grid[X+ofset][Y] == 0 and 0 < X+ofset < size-1:
+                        if gget(X+ofset,Y) == 0 and 0 < X+ofset < size-1:
                             X+=ofset
-                        if self.grid[X][Y-1] == 0:
+                        if gget(X,Y-1) == 0:
                             Y -= 1
                         if Y-1 < 1:
                             Y+=1
                         elif (X,Y) != (x,y):
-                            self.grid[x][y] = 0
-                            self.grid[X][Y] = -20
+                            gset(x,y,0)
+                            gset(X,Y,-20)
                     
                     #gunpowder
                     elif pix == 21:
                         for i in range(3):
                             ofset = ((i+1)%3)-1
-                            if (self.grid[x+ofset][y+1] in fall) and 0 < x+ofset < size-1 and y < size-2:
-                                self.grid[x][y] = self.grid[x+ofset][y+1]
-                                self.grid[x+ofset][y+1] =pix*-1
+                            if (gget(x+ofset,y+1) in fall) and 0 < x+ofset < size-1 and y < size-2:
+                                gset(x,y,gget(x+ofset,y+1))
+                                gset(x+ofset,y+1,pix*-1)
                                 break
                     elif pix == 121 and pyxel.rndi(0,10) == 0:
                         for xr in range((explosionsize)+1):
                             for yr in range((explosionsize)+1):
                                 XX,YY = pyxel.clamp((xr-int(explosionsize/2))+x,1,size-2),pyxel.clamp((yr-int(explosionsize/2))+y,2,size-2)
-                                self.grid[XX][YY] = -9
+                                gset(XX,YY,-9)
                     
                     #LAVA
                     elif pix == 22:
@@ -350,31 +359,31 @@ class App:
                         Y = y
                         for I in range(2):
                             i = (I*2)-1
-                            place = abs(self.grid[pyxel.clamp(X+i,1,size-1)][Y])
+                            place = abs(gget(pyxel.clamp(X+i,1,size-1),Y))
                             if place == 3:
-                                self.grid[X][Y] = 12
+                                gset(X,Y,12)
                                 if pyxel.rndi(0,10) == 0:
-                                    self.grid[X+i][Y] = -6
+                                    gset(X+i,Y,-6)
                             if place in burn:
-                                self.grid[X+i][Y] = 9
+                                gset(X+i,Y,9)
                         for I in range(2):
                             i = (I*2)-1
-                            place = abs(self.grid[X][pyxel.clamp(Y+i,1,size-2)])
+                            place = abs(gget(X,pyxel.clamp(Y+i,1,size-2)))
                             if place == 3:
-                                self.grid[X][Y] = 12
+                                gset(X,Y,12)
                                 if pyxel.rndi(0,10) == 0:
-                                    self.grid[X][Y+i] = 6
+                                    gset(X,Y+i,6)
                             if place in burn:
-                                self.grid[X][Y+i] = 9
+                                gset(X,Y+i,9)
                             ofset = (pyxel.rndi(0,1)*2)-1
-                            if abs(self.grid[X+ofset][Y]) in goopfall and 0 < X+ofset < size-1:
+                            if abs(gget(X+ofset,Y)) in goopfall and 0 < X+ofset < size-1:
                                 X+=ofset
-                        if abs(self.grid[X][Y+1]) in goopfall  and Y < size-2:
+                        if abs(gget(X,Y+1)) in goopfall  and Y < size-2:
                             Y += 1
    
                         if (X,Y) != (x,y):
-                            self.grid[x][y] = self.grid[X][Y]
-                            self.grid[X][Y] = -22
+                            gset(x,y,gget(X,Y))
+                            gset(X,Y,-22)
                                         
                 
 
@@ -384,12 +393,12 @@ class App:
         pyxel.camera(-5,-5)
         for x in range(size):
             for y in range(size):
-                pix = self.grid[x][y]
+                pix = gget(x,y)
                 if y > size-2:
-                    self.grid[x][y] = 0
+                    gset(x,y,0)
                 elif pix != 0:
-                    self.grid[x][y] = abs(pix)
-                    pyxel.pset(x,y+1,(self.grid[x][y])%100)
+                    gset(x,y,abs(pix))
+                    pyxel.pset(x,y+1,(gget(x,y))%100)
 
         pyxel.circ(95,-2,3,7)
         pyxel.line(93,-2,97,-2,3)
