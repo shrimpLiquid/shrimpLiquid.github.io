@@ -1,18 +1,15 @@
 import requests
 
 scores = {}
+while True:
+        try:
+                print("jsdioa")
+                url = 'http://192.168.1.18/submit'
+                myobj = input(":")
+                # myobj = "goop"
 
-try:
-        print("jsdioa")
-        url = 'http://192.168.1.78/submit'
-        myobj = input(":")
-        # myobj = "goop"
+                x = requests.post(url, json = myobj)
 
-        x = requests.post(url, json = myobj)
-
-        print(x.text)
-        if myobj == "list":
-            scores = eval(x.text)
-            print(scores)
-except:
-        print("D:")
+                print(x.text)
+        except:
+                print("D:")

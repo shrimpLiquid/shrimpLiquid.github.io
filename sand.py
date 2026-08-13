@@ -130,9 +130,9 @@ class App:
         if pyxel.btn(pyxel.KEY_E):
             self.e = 22
 
-
-        for x in range(size):
-            for y in range(size):
+        xs = range(size) if pyxel.frame_count % 2 == 0 else range(size - 1, -1, -1)
+        for x in xs:
+            for y in range(size - 1, -1, -1):
                 #SAND
                 pix = self.grid[x][y]
                 if pix != 0:
@@ -148,7 +148,7 @@ class App:
    
                    #WATER
                     elif pix == 3:
-                        dir = (pyxel.rndi(0,1)*2)-1
+                        dir = ((x%2)*2)-1
                         if self.grid[x+dir][y]:
                             dir*=-1
                         X = x
@@ -165,8 +165,8 @@ class App:
                         if (X,Y) != (x,y):
                             self.grid[x][y] = self.grid[X][Y]
                             self.grid[X][Y] = -3
-   
-                        if self.grid[X][Y+1] == 14:
+
+                        if Y + 1 < size and self.grid[X][Y + 1] == 14:
                             self.grid[X][Y] = -6
    
                     #FIRE
