@@ -85,7 +85,7 @@ class App:
             if pyxel.btn(pyxel.MOUSE_BUTTON_LEFT) and pyxel.mouse_x-5 > 0 and pyxel.mouse_y-5 > 1:
                 X,Y = pyxel.mouse_x-5,pyxel.mouse_y-5
                 
-                pyxel.circ(X-5,Y,self.bs/2,1)
+                pyxel.circ(X-5,Y,self.bs/2.5,1)
                 for x in range((self.bs)+1):
                     for y in range((self.bs)+1):
                         if ((not self.e in [9]) or self.grid[pyxel.clamp((x-int(self.bs/2))+X,1,size-2)][pyxel.clamp((y-int(self.bs/2))+Y,2,size-2)] == 0) and (pyxel.pget(pyxel.clamp((x-int(self.bs/2))+X,1,size-2),pyxel.clamp((y-int(self.bs/2))+5+Y,2,size-2)) == 1 or not self.ball):
@@ -143,7 +143,7 @@ class App:
                                 self.grid[x][y] = self.grid[x+ofset][y+1]
                                 self.grid[x+ofset][y+1] = -10
                                 break
-                        if self.grid[x][y+1] in [8,14]:
+                        if self.grid[x][y+1] in (8,14):
                                 self.grid[x][y] = -8
    
                    #WATER
@@ -191,11 +191,14 @@ class App:
                                 self.grid[X][Y+i] = 121
    
                         ofset = (pyxel.rndi(0,1)*2)-1
-                        if self.grid[X+ofset][Y] in [0,9] and 0 < X+ofset < size-1:
+                        if self.grid[X+ofset][Y] in (0,9) and 0 < X+ofset < size-1:
                             X+=ofset
-                        if self.grid[X][Y-1] in [0,9]:
+                        above = self.grid[X][Y-1]
+                        if above in (0,9):
                             Y -= 1
                         else:
+                            if above == 13:
+                                self.grid[X][Y-1] = 14
                             self.grid[x][y] = 0
                             break
                         if Y-1 < 1:
@@ -212,16 +215,12 @@ class App:
    
                     #metal
                     elif pix ==  13:
-                        if self.grid[x][y+1] in [9,14]:
+                        if abs(self.grid[x][y+1]) == 14:
                             self.grid[x][y] = -14
-                            if self.grid[x][y+1] == 9:
-                                self.grid[x][y+1] = 0
                     elif pix ==  14:
                         if pyxel.rndi(0,2) == 0:
                             self.grid[x][y] = 13
-   
-   
-   
+
                     #steam
                     elif pix ==  6:
                         if pyxel.rndi(0,1000) == 0:
@@ -230,9 +229,9 @@ class App:
                         X = x
                         Y = y
                         ofset = (pyxel.rndi(0,1)*2)-1
-                        if self.grid[X+ofset][Y] in [3,0] and 0 < X+ofset < size-1:
+                        if self.grid[X+ofset][Y] in (3,0) and 0 < X+ofset < size-1:
                             X+=ofset
-                        if self.grid[X][Y-1] in [3,0]:
+                        if self.grid[X][Y-1] in (3,0):
                             Y -= 1
                         if Y-1 < 1:
                             Y+=1
@@ -268,16 +267,14 @@ class App:
 
 
                     #goop
-                    elif pix ==  11:
+                    elif pix == 11:
+                        ofset = (pyxel.rndi(0,1)*2)-1
                         X = x
                         Y = y
-                        if pyxel.rndi(0,10) == 0:
-                            ofset = (pyxel.rndi(0,1)*2)-1
-                            if abs(self.grid[X+ofset][Y]) in goopfall and 0 < X+ofset < size-1:
-                                X+=ofset
-                        if pyxel.rndi(0,4) == 0:
-                            if abs(self.grid[X][Y+1]) in goopfall  and Y < size-2:
-                                Y += 1
+                        if abs(self.grid[X+ofset][Y]) in goopfall and 0 < X+ofset < size-1:
+                            X+=ofset
+                        if abs(self.grid[X][Y+1]) in goopfall  and Y < size-2:
+                            Y+=1
    
                         if (X,Y) != (x,y):
                             self.grid[x][y] = self.grid[X][Y]
@@ -294,7 +291,7 @@ class App:
    
                     #glass
                     elif pix ==  8:
-                        if pyxel.rndi(0,5) == 0 and not self.grid[x][y+1] in [8,0]:
+                        if pyxel.rndi(0,5) == 0 and not self.grid[x][y+1] in (8,0):
                             self.grid[x][y] = -18
                             break
                         ofset = (pyxel.rndi(0,1)*2)-1
@@ -314,9 +311,9 @@ class App:
                         ofset = (pyxel.rndi(0,1)*2)-1
                         X = x
                         Y = y
-                        if abs(self.grid[X+ofset][Y]) not in [18,19] and 0 < X+ofset < size-1:
+                        if abs(self.grid[X+ofset][Y]) not in (18,19) and 0 < X+ofset < size-1:
                             X+=ofset
-                        if abs(self.grid[X][Y+1]) not in [18,19]  and Y < size-2:
+                        if abs(self.grid[X][Y+1]) not in (18,19)  and Y < size-2:
                             Y+=1
    
                         if (X,Y) != (x,y):
@@ -441,7 +438,7 @@ class App:
         pyxel.line(0,1,0,100,7)
         pyxel.line(1,2,100,2,7)
         pyxel.text(0,-5,str(self.bs+1),7)
-        pyxel.text(10,-5,str(elements[self.e]),self.e%100)
+        pyxel.text(10,-5,str(elements[self.e]),self.e)
         if self.e in dark:
             pyxel.text(10,-5,str(elements[self.e]),7)
 
