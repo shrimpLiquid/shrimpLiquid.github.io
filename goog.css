@@ -10,21 +10,32 @@
 body {
   margin: 0; /* */
   background-image: url('goog.png');
-  background-repeat: repeat;
+  background-repeat: cover;
   background-size: 100% auto; 
   background-color: #008cff;
 }
 
 .google-search-field {
-    border: 3px solid #ffffff;
-    /* background-image: url('goog.png'); */
+    border: 1px solid #ffffff;
+    background-image: url('searchbar.png');
+    background-repeat: round;
     background-color: #008cff00;
-    border-radius: 1.75rem;
-    width: 50%;
-    height: 3.5rem;
+    border-radius: 0.4rem;
+    width: 55%;
+    height: 4rem;
     padding: 20px 50px;
     position:absolute;
     top:30%;
-    left:25%;
+    left:22.5%;
+    margin-bottom: 30px;
+}
+
+.google-search-buttons{
+    background-image: url('searchbar.png');
+    background-repeat: round;
+    background-color: #008cff00;
+    width: 7%;
+    height: 3.5rem;
+    padding: 20px 50px;
     margin-bottom: 30px;
 }
