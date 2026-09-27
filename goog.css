@@ -20,7 +20,7 @@ body {
     background-image: url('searchbar.png');
     background-repeat: round;
     background-color: #008cff00;
-    border-radius: 0.4rem;
+    border-radius: 1rem;
     width: 55%;
     height: 4rem;
     padding: 20px 50px;
