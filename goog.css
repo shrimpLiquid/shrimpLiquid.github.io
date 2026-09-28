@@ -1,10 +1,10 @@
 @font-face {
-  font-family: 'KARK';
-  src: url('karkathonian.ttf') format('truetype');
+  font-family: 'frutiG';
+  src: url('Frutiger.ttf') format('truetype');
 }  
 
 .OUT {
-  font-family: 'KARK', sans-serif !important; /* Removed extra semicolon and added generic fallback */
+  font-family: 'frutiG', sans-serif !important; /* Removed extra semicolon and added generic fallback */
 }
 
 body {
@@ -20,22 +20,17 @@ body {
     background-image: url('searchbar.png');
     background-repeat: round;
     background-color: #008cff00;
+    font-family: 'frutiG';
+    font-size: 50;
     border-radius: 1rem;
+    color:white;
+    text-shadow: 0px 0px 5px #4193e8;
     width: 55%;
     height: 4rem;
-    padding: 20px 50px;
+    padding: 10px;
     position:absolute;
-    top:30%;
+    top:35%;
     left:22.5%;
     margin-bottom: 30px;
 }
 
-.google-search-buttons{
-    background-image: url('searchbar.png');
-    background-repeat: round;
-    background-color: #008cff00;
-    width: 7%;
-    height: 3.5rem;
-    padding: 20px 50px;
-    margin-bottom: 30px;
-}
