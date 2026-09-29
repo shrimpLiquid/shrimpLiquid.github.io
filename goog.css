@@ -4,7 +4,7 @@
 }  
 
 .OUT {
-  font-family: 'frutiG', sans-serif !important; /* Removed extra semicolon and added generic fallback */
+  font-family: 'frutiG', sans-serif !important;
 }
 
 body {
