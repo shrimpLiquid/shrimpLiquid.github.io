@@ -1,8 +1,9 @@
 const input = document.getElementById('search-input');
 const suggestionsBox = document.getElementById('suggestions');
 
-// Inline SVG icon prevents character encoding issues
-const searchIcon = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#9aa0a6" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>`;
+
+const searchIcon = `<img src="searchicon.png" width="20" height="20" alt="icon">`;
+// const searchIcon = `<span><span>`;
 
 window.handleSuggestions = (data) => {
     const suggestions = data[1] || [];
