@@ -41,8 +41,8 @@ body {
     font-family: 'frutiG';
     font-size: 50px; 
     color: white;
-    text-shadow: 0px 0px 5px #4193e8;
-    text-align: center;
+    text-shadow: 0px 0px 7px #4193e8;
+    /* text-align: center; */
 
     
     border: 1px solid #ffffff;
@@ -62,13 +62,12 @@ body {
     font-family: 'frutiG';
     font-size: 50px; 
     color: white;
-    text-shadow: 0px 0px 5px #4193e8;
     padding-left: 4rem;
     padding-right: 4rem;
 
     border: 0px solid #ffffff;
     border-radius: 1rem;
-    background-color: #ffffff10; 
+    background-color: #4193e830; 
 
     background-image: url('searchbar.png'), url('searchbarleft.png'), url('searchbarright.png');
     background-repeat: round, no-repeat,no-repeat;
