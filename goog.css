@@ -31,7 +31,7 @@ body {
 .google-search-field {
     
     position: absolute;
-    top: 35%;
+    top: 33%;
     left: 22.5%;
     width: 55%;
     height: 4rem;
@@ -54,7 +54,7 @@ body {
 .back {
     
     position: absolute;
-    top: 35%;
+    top: 33%;
     left: 22.5%;
     width: calc(55% - (4rem*2));
     height: 4rem;
