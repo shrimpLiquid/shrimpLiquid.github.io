@@ -52,7 +52,7 @@ body {
     }
 
 .back {
-    
+    backdrop-filter : saturate(150%)  blur(1px) ; 
     position: absolute;
     top: 33%;
     left: 22.5%;
