@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Google Waffle with Dropdown Menu</title>
+  <style>
+    /* Basic Page Setup */
+    body {
+      background-color: #ffffff;
+      font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+
+    /* Top Navigation bar simulation to position the waffle button */
+    .header-nav {
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      height: 60px;
+      padding: 0 24px;
+      position: relative;
+    }
+
+    /* Interactive Waffle Button */
+    .waffle-button {
+      background: none;
+      border: none;
+      border-radius: 50%;
+      cursor: pointer;
+      display: grid;
+      grid-template-columns: repeat(3, 4px);
+      gap: 4px;
+      padding: 12px;
+      transition: background-color 0.15s ease;
+      z-index: 100;
+    }
+
+    .waffle-button:hover, .waffle-button.active {
+      background-color: rgba(60, 64, 67, 0.08);
+    }
+
+    /* Individual dots within the grid */
+    .waffle-dot {
+      background-color: #5f6368;
+      border-radius: 50%;
+      width: 4px;
+      height: 4px;
+    }
+
+    /* Dropdown Apps Panel Container */
+    .apps-dropdown {
+      position: absolute;
+      top: 60px;
+      right: 16px;
+      width: 320px;
+      max-height: 450px;
+      background-color: #ffffff;
+      border-radius: 28px;
+      box-shadow: 0 1px 3px 0 rgba(60,64,67,0.3), 0 4px 8px 3px rgba(60,64,67,0.15);
+      border: 1px solid #e0e0e0;
+      padding: 16px;
+      overflow-y: auto;
+      display: none; /* Hidden by default */
+      z-index: 99;
+    }
+
+    /* Show state triggered by JavaScript */
+    .apps-dropdown.show {
+      display: block;
+    }
+
+    /* Grid Layout for individual App icons */
+    .apps-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+    }
+
+    /* Single App Shortcut Container */
+    .app-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-decoration: none;
+      padding: 12px 0;
+      border-radius: 16px;
+      transition: background-color 0.15s ease;
+    }
+
+    .app-item:hover {
+      background-color: #f1f3f4;
+    }
+
+    /* Styled placeholder for Google App SVG icons */
+    .app-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      color: white;
+      font-size: 18px;
+      margin-bottom: 8px;
+      box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+    }
+
+    /* App Text Labels */
+    .app-label {
+      color: #3c4043;
+      font-size: 13px;
+      letter-spacing: .07px;
+      text-align: center;
+    }
+
+    /* Thematic brand background colors for visual placeholders */
+    .bg-search { background-color: #4285f4; }
+    .bg-maps   { background-color: #34a853; }
+    .bg-youtube{ background-color: #ea4335; }
+    .bg-play   { background-color: #fabc05; }
+    .bg-gmail  { background-color: #ea4335; }
+    .bg-drive  { background-color: #109d59; }
+  </style>
+</head>
+<body>
+
+  <div class="header-nav">
+    <!-- Waffle Trigger Button -->
+    <button class="waffle-button" id="waffleBtn" aria-label="Google apps" aria-expanded="false">
+      <div class="waffle-dot"></div><div class="waffle-dot"></div><div class="waffle-dot"></div>
+      <div class="waffle-dot"></div><div class="waffle-dot"></div><div class="waffle-dot"></div>
+      <div class="waffle-dot"></div><div class="waffle-dot"></div><div class="waffle-dot"></div>
+    </button>
+
+    <!-- Dropdown Panel -->
+    <div class="apps-dropdown" id="appsMenu">
+      <div class="apps-grid">
+        
+        <!-- App: Search -->
+        <a href="https://google.com" class="app-item">
+          <div class="app-icon bg-search">G</div>
+          <span class="app-label">Search</span>
+        </a>
+
+        <!-- App: Maps -->
+        <a href="#" class="app-item">
+          <div class="app-icon bg-maps">M</div>
+          <span class="app-label">Maps</span>
+        </a>
+
+        <!-- App: YouTube -->
+        <a href="#" class="app-item">
+          <div class="app-icon bg-youtube">Y</div>
+          <span class="app-label">YouTube</span>
+        </a>
+
+        <!-- App: Play -->
+        <a href="#" class="app-item">
+          <div class="app-icon bg-play">P</div>
+          <span class="app-label">Play</span>
+        </a>
+
+        <!-- App: Gmail -->
+        <a href="#" class="app-item">
+          <div class="app-icon bg-gmail">M</div>
+          <span class="app-label">Gmail</span>
+        </a>
+
+        <!-- App: Drive -->
+        <a href="#" class="app-item">
+          <div class="app-icon bg-drive">▲</div>
+          <span class="app-label">Drive</span>
+        </a>
+
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const waffleBtn = document.getElementById('waffleBtn');
+    const appsMenu = document.getElementById('appsMenu');
+
+    // Click handler to toggle the panel
+    waffleBtn.addEventListener('click', (event) => {
+      event.stopPropagation(); // Prevents immediate closing from the document listener
+      const isExpanded = appsMenu.classList.toggle('show');
+      waffleBtn.classList.toggle('active', isExpanded);
+      waffleBtn.setAttribute('aria-expanded', isExpanded);
+    });
+
+    // Close the panel automatically if the user clicks anywhere else outside of it
+    document.addEventListener('click', (event) => {
+      if (!appsMenu.contains(event.target) && event.target !== waffleBtn) {
+        appsMenu.classList.remove('show');
+        waffleBtn.classList.remove('active');
+        waffleBtn.setAttribute('aria-expanded', 'false');
+      }
+    });
+  </script>
+
+</body>
+</html>

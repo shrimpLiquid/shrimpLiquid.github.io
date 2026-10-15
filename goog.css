@@ -45,7 +45,7 @@ body {
     /* text-align: center; */
 
     
-    border: 1px solid #ffffff;
+    border: 1px solid #ffffff66;
     padding: 10px;
     border-radius: 1rem;
     background-color: #ff000000; 
@@ -65,7 +65,7 @@ body {
     padding-left: 4rem;
     padding-right: 4rem;
 
-    border: 0px solid #ffffff;
+    border: 0px solid #ffffff66;
     border-radius: 1rem;
     background-color: #4193e830; 
 
@@ -78,6 +78,32 @@ body {
     background-size: cover, auto 100%, auto 100%;
 }
 
+.sback {
+    backdrop-filter : saturate(150%)  blur(1px) ; 
+    position: absolute;
+    top: calc(33% + 4rem);
+    left: 22.5%;
+    width: calc(55% - (10rem*2));
+    height: 10rem;
+        
+    font-family: 'frutiG';
+    font-size: 50px; 
+    color: white;
+    padding-left: 10rem;
+    padding-right: 10rem;
+
+    border: 0px solid #ffffff66;
+    border-radius: 2.5rem;
+    background-color: #4193e830; 
+
+    background-image: url('searchbar.png'), url('searchbarleft.png'), url('searchbarright.png');
+    background-repeat: round, no-repeat,no-repeat;
+    
+    background-position-x: left,left,right;
+    background-origin: content-box, border-box,border-box;
+    background-clip: content-box, border-box,border-box;
+    background-size: cover, auto 100%, auto 100%;
+}
 
 .google-search-field:focus {
     outline: none;
@@ -119,3 +145,22 @@ body {
     top: 6vh;   
     transform: translateY(-50%,-50%); 
 } */
+
+
+
+.waffle-button {
+      background: none;
+      border: none;
+      border-radius: 50%;
+      cursor: pointer;
+      display: grid;
+      width: 50px; 
+    aspect-ratio: 1 / 1; 
+      grid-template-columns: repeat(3, 4px);
+      gap: 4px;
+      padding: 12px;
+      transition: background-color 0.15s ease;
+    }
+    .waffle-button:hover {
+      background-color: rgba(60, 64, 67, 0.08);
+    }
