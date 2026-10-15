@@ -1,11 +1,11 @@
 const input = document.getElementById('search-input');
 const suggestionsBox = document.getElementById('suggestions');
-const suggestions_back = document.getElementById('suggestions_back');
+// const suggestions_back = document.getElementById('suggestions_back');
 
 
 const searchIcon = `<img src="searchicon.png" width="20" height="20" alt="icon">`;
 // const searchIcon = `<span><span>`;
-suggestions_back.style.visibility = 'hidden';      // Hide
+// suggestions_back.style.visibility = 'hidden';      // Hide
 
 
 window.handleSuggestions = (data) => {
@@ -15,7 +15,7 @@ window.handleSuggestions = (data) => {
         const text = Array.isArray(entry) ? entry[0] : entry;
         const safeText = text.replace(/'/g, "\\'").replace(/"/g, '&quot;');
         
-        suggestions_back.style.visibility = 'visible';     // Show
+        // suggestions_back.style.visibility = 'visible';     // Show
         
         return `
             <div class="suggestion-item" onclick="selectSuggestion('${safeText}')">
