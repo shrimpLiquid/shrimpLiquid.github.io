@@ -7,7 +7,7 @@ class App:
 		#self.p = [[90,50,8],[10,50,5],[50,10,11],[50,90,10]]#4
 		pyxel.screen_mode(0)
 		self.p = [[10,10,1],[50,10,2],[90,10,3],[10,50,8],[50,50,9],[90,50,4],[10,90,7],[50,90,6],[90,90,5]]
-		pyxel.colors.from_list([0x000000,0xff4444,0xff7f44,0xffff44,0x44ff44,0x44ffff,0x4444ff,0x7f44ff,0xff44ff,0xffffff])
+		pyxel.colors.from_list([0x000000,0xff4444,0xff7f44,0xffff44,0x44ff44,0x44ffff,0x4444ff,0xaf44ff,0xff44ff,0xffffff])
 		pyxel.run(self.update, self.draw)
 		
 
@@ -37,8 +37,8 @@ class App:
 			
 			self.s = pyxel.rndi(0,3)
 			if 1== pyxel.rndi(0,100):#reproduction
-				#self.p.append([pyxel.rndi(0,(100*sm)),pyxel.rndi(0,(100*sm)),p[2]])  #mold
-				#self.p.append([p[0]+pyxel.rndi(-1,1),p[1]+pyxel.rndi(-1,1),p[2]])	#bugs
+				# self.p.append([pyxel.rndi(0,(100*sm)),pyxel.rndi(0,(100*sm)),p[2]])  #mold
+				# self.p.append([p[0]+pyxel.rndi(-1,1)*max(pyxel.rndi(-10900,1),0),p[1]+pyxel.rndi(-1,1),p[2]*max(pyxel.rndi(-100,1),0)])	#bugs
 				self.p.append(p)										 #blight
 				pass
 			if self.s == 0:
