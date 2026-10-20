@@ -220,6 +220,8 @@ class App:
                     elif pix ==  14:
                         if pyxel.rndi(0,2) == 0:
                             self.grid[x][y] = 13
+                        if self.grid[x][y-1] == 18:
+                            self.grid[x][y-1] = -8
 
                     #steam
                     elif pix ==  6:
