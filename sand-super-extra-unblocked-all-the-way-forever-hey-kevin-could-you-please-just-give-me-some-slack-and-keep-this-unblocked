@@ -1,2 +1,6 @@
+
 <script src="https://kitao.dev/pyxel/2.9.9/pyxel.js"></script>
-<pyxel-run root="." name="sand.py"></pyxel-run>
+
+<pyxel-run root="." name="sand.py">
+  
+</pyxel-run>
