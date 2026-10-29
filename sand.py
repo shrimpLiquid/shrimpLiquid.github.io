@@ -303,7 +303,8 @@ class App:
                             X+=ofset
                         if abs(self.grid[X][Y+1]) in fall  and Y < size-2:
                             Y+=1
-   
+                        if self.grid[x][y-1] == 18:
+                            self.grid[x][y-1] = -8
                         if (X,Y) != (x,y):
                             self.grid[x][y] = self.grid[X][Y]
                             self.grid[X][Y] = -8

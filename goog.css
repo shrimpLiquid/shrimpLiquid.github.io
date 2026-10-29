@@ -110,9 +110,6 @@ body {
 }
 
 .suggestions-list {
-    
-    
-    
     background-color: #008cff00;
     font-family: 'frutiG';
     font-size: 30;
@@ -145,22 +142,3 @@ body {
     top: 6vh;   
     transform: translateY(-50%,-50%); 
 } */
-
-
-
-.waffle-button {
-      background: none;
-      border: none;
-      border-radius: 50%;
-      cursor: pointer;
-      display: grid;
-      width: 50px; 
-    aspect-ratio: 1 / 1; 
-      grid-template-columns: repeat(3, 4px);
-      gap: 4px;
-      padding: 12px;
-      transition: background-color 0.15s ease;
-    }
-    .waffle-button:hover {
-      background-color: rgba(60, 64, 67, 0.08);
-    }
