@@ -65,8 +65,8 @@ body {
     
     border-radius: 1rem;
     background: linear-gradient(0deg, #D2E6FB7A 0%, #B8D8F762 100%);
-    box-sizing: border-box;
     border: 1px solid #ffffff66;
+    box-sizing: border-box;
     padding: 0.4rem;
 }
 
