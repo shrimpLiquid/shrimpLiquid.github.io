@@ -5,7 +5,7 @@
 
 @font-face {
   font-family: 'TEXT';
-  src: url('main/NevantaMedium-1jrVL.otf') format('truetype');
+  src: url('main/Frutiger.ttf') format('truetype');
 }  
 
 .OUT {
@@ -118,13 +118,11 @@ body{
     width: 100%;
     height: 3.4vw;
     /* border-radius: 0.5vw; */
-    background-color: #2B62AF;
+    background-color: #64ADFF;
     font-family: 'TITLE';
     color:white;
-    font-size: 1px;
-    text-fit: grow;
+    font-size: 2.55vw;
     box-sizing: border-box;
-    box-shadow: 0 0 0.5vw #16376988;
 
     padding: 0.5vw;
     padding-top: 0px;

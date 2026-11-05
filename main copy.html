@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Website</title>
+</head>
+<body>
+
+    <!-- The container where your post will display -->
+    <div id="latest-tagged-post">Loading latest post...</div>
+
+    <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Website</title>
+</head>
+<body>
+
+    <!-- Container where your Tumblr post content will display -->
+    <div id="latest-tagged-post">Loading latest post...</div>
+
+    <script>
+    async function fetchLatestTaggedPost() {
+        const container = document.getElementById('latest-tagged-post');
+        
+        // 1. Direct Tumblr RSS URL
+        const rssUrl = "https://tumblr.com";
+        
+        // 2. Route through an open, unrestricted CORS proxy wrapper
+        const proxyUrl = "https://freeboard.io" + encodeURIComponent(rssUrl);
+
+        try {
+            console.log("Fetching RSS xml stream via thingproxy...");
+            const response = await fetch(proxyUrl);
+            
+            if (!response.ok) throw new Error("Network connection failed: " + response.status);
+            
+            // Read response as raw XML text instead of JSON data
+            const xmlText = await response.text();
+            
+            // 3. Parse the XML string into an readable document object
+            const parser = new DOMParser();
+            const xmlDoc = parser.parseFromString(xmlText, "text/xml");
+            
+            // Find all item elements in the feed timeline
+            const items = xmlDoc.getElementsByTagName("item");
+            
+            if (items.length === 0) {
+                container.innerText = "No recent posts found with that tag.";
+                return;
+            }
+
+            // 4. Extract the description content from the single newest item
+            const latestItem = items[0];
+            const descriptionNode = latestItem.getElementsByTagName("description")[0];
+            
+            if (descriptionNode) {
+                // Render the post contents straight into your HTML container
+                container.innerHTML = descriptionNode.textContent;
+                console.log("Post content successfully rendered!");
+            } else {
+                container.innerText = "Post found, but it has no text content.";
+            }
+
+        } catch (error) {
+            console.error("Operational error:", error);
+            container.innerText = "Error loading latest post content.";
+        }
+    }
+
+    // Fire the script execution sequence
+    fetchLatestTaggedPost();
+    </script>
+
+</body>
+</html>
+
+
+
+
+</body>
+</html>
