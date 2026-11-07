@@ -5,6 +5,12 @@ function GO(){
 
 
 
+  // create a new div element
+  newDiv = document.createElement("script");
+
+  newDiv.src = "https://kitao.dev/pyxel/2.9.9/pyxel.js"
+
+  document.body.append(newDiv);
   
 //   newDiv = document.createElement("pyxel-run");
 
