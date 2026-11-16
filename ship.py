@@ -1,5 +1,6 @@
 import pyxel    
-from math import cos,sin,radians,dist,degrees,atan2,sqrt
+from math import *
+
 def val(value, istart, istop, ostart, ostop):
   return ostart + (ostop - ostart) * ((value - istart) / (istop - istart))
 def angle_between(a, b):
@@ -56,6 +57,7 @@ class App:
 
        
     def draw(self):
+        pyxel.integer_scale(True)
         if pyxel.btnp(pyxel.KEY_R) or pyxel.btnp(pyxel.GAMEPAD1_BUTTON_B):
             self.p = [[10,90,0,0,0]]
             self.t = [100,100]
