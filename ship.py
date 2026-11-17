@@ -57,7 +57,7 @@ class App:
 
        
     def draw(self):
-        pyxel.integer_scale(True)
+        # pyxel.integer_scale(True)
         if pyxel.btnp(pyxel.KEY_R) or pyxel.btnp(pyxel.GAMEPAD1_BUTTON_B):
             self.p = [[10,90,0,0,0]]
             self.t = [100,100]
