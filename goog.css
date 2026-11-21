@@ -89,15 +89,15 @@ body {
 }
 
 .suggestions-list {
-    backdrop-filter : saturate(150%)  blur(1px) ; 
+    /* backdrop-filter : saturate(150%)  blur(1px) ;  */
     position: absolute;
     top: calc(33% + 4rem);
     left: 22.5%;
     width: calc(55%);
     /* min-height: 0; */
     /* border-radius: 1rem; */
-    background: linear-gradient(0deg, #D2E6FB7A 0%, #B8D8F762 100%);
-    border: 1px solid #ffffff66;
+    /* background: linear-gradient(0deg, #D2E6FB7A 0%, #B8D8F762 100%); */
+    /* border: 1px solid #ffffff66; */
     box-sizing: border-box;
 
     font-family: 'frutiG';
