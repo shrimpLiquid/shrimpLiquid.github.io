@@ -19,6 +19,7 @@ dark = [0,20]
 
 burn = [21,4,15]
 
+liquids = [3,9,11,15,19,22]
 elements = {0:"air",
             10:"sand",
             3:"water",
@@ -41,7 +42,7 @@ for e in elements:
         elearry.append(e)
 
 explosionsize = 10
-
+from random import *
 size = 100
 yyyyy = []
 for i in range(size):
@@ -88,7 +89,7 @@ class App:
                 pyxel.circ(X-5,Y,self.bs/2.5,1)
                 for x in range((self.bs)+1):
                     for y in range((self.bs)+1):
-                        if ((not self.e in [9]) or self.grid[pyxel.clamp((x-int(self.bs/2))+X,1,size-2)][pyxel.clamp((y-int(self.bs/2))+Y,2,size-2)] == 0) and (pyxel.pget(pyxel.clamp((x-int(self.bs/2))+X,1,size-2),pyxel.clamp((y-int(self.bs/2))+5+Y,2,size-2)) == 1 or not self.ball):
+                        if ((not self.e in liquids) or self.grid[pyxel.clamp((x-int(self.bs/2))+X,1,size-2)][pyxel.clamp((y-int(self.bs/2))+Y,2,size-2)] == 0) and (pyxel.pget(pyxel.clamp((x-int(self.bs/2))+X,1,size-2),pyxel.clamp((y-int(self.bs/2))+5+Y,2,size-2)) == 1 or not self.ball):
                             self.grid[pyxel.clamp((x-int(self.bs/2))+X,1,size-2)][pyxel.clamp((y-int(self.bs/2))+Y,2,size-2)] = self.e
         else:
            if pyxel.btn(pyxel.MOUSE_BUTTON_LEFT):
@@ -97,7 +98,7 @@ class App:
                    if (s[0],s[1]) == (pyxel.mouse_x,pyxel.mouse_y):
                        t = 0
                if t:
-                self.spouts.append([pyxel.mouse_x,pyxel.mouse_y,self.e])
+                self.spouts.append([pyxel.mouse_x-5,pyxel.mouse_y-5,self.e])
         if pyxel.btnp(pyxel.KEY_PERIOD):
             pyxel.screen_mode(self.smooth)
             self.smooth = not self.smooth
@@ -291,12 +292,16 @@ class App:
                                 self.grid[x+ofset][y+1] = -2
                                 break
    
-                    #glass
-                    elif pix ==  8:
+                    #molten glass
+                    elif pix == 8:
                         if pyxel.rndi(0,5) == 0 and not self.grid[x][y+1] in (8,0):
                             self.grid[x][y] = -18
                             break
                         ofset = (pyxel.rndi(0,1)*2)-1
+
+                        if pyxel.rndi(0,5) == 0:
+                            if self.grid[x+ofset][y] in (10,18):
+                                self.grid[x+ofset][y] = -8
                         X = x
                         Y = y
                         if abs(self.grid[X+ofset][Y]) in fall and 0 < X+ofset < size-1:
