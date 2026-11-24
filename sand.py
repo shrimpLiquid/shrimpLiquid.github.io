@@ -7,6 +7,7 @@ waterfall = list(fall)
 waterfall.remove(3)
 waterfall.append(2)
 goopfall = list(fall)
+goopfall.append(8)
 oilfall = list(fall)
 oilfall.remove(15)
 oilfall.remove(3)
@@ -150,7 +151,7 @@ class App:
                    #WATER
                     elif pix == 3:
                         dir = ((x%2)*2)-1
-                        if self.grid[x+dir][y]:
+                        if self.grid[x+dir][y] not in waterfall:
                             dir*=-1
                         X = x
                         Y = y
@@ -217,7 +218,7 @@ class App:
                     #metal
                     elif pix ==  13:
                         if abs(self.grid[x][y+1]) == 14:
-                            self.grid[x][y] = -14
+                            self.grid[x][y] = 14
                     elif pix ==  14:
                         if pyxel.rndi(0,2) == 0:
                             self.grid[x][y] = 13
@@ -245,7 +246,7 @@ class App:
                     #oil
                     if self.grid[x][y] == 15:
                         dir = (pyxel.rndi(0,1)*2)-1
-                        if self.grid[x+dir][y]:
+                        if self.grid[x+dir][y] not in oilfall:
                             dir*=-1
                         X = x
                         Y = y
@@ -438,7 +439,7 @@ class App:
 
         for i in range(len(elearry)):
             pyxel.rect(-5,i*6,6,5,elearry[i])
-            if pyxel.btn(pyxel.MOUSE_BUTTON_LEFT):
+            if pyxel.btnp(pyxel.MOUSE_BUTTON_LEFT):
                 if pyxel.mouse_x-5 < 0:
                     if (i*6)+6 > pyxel.mouse_y-5 > (i*6):
                         self.e = elearry[i]
